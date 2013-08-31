@@ -1,0 +1,662 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass tufte-book
+\begin_preamble
+ \usepackage{pdflscape}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Transit Data Issues- A Primer
+\end_layout
+
+\begin_layout Author
+Tony Laidig
+\end_layout
+
+\begin_layout Date
+September, 2013
+\end_layout
+
+\begin_layout Address
+c64@alum.mit.edu
+\end_layout
+
+\begin_layout Chapter
+Introduction
+\end_layout
+
+\begin_layout Standard
+The last decade has seen an explosion in the availability of data, and public
+ transit is no exception.
+ The development of the General (originally Google) Transit Feed Structure
+ (GTFS) in 2005 brought to light data that was previously available with
+ reduced only on paper or in more complex (e.g.
+ TransXchange) and/or proprietary (e.g.
+ TSDE) formats.
+ Since that time, the number of 'outsiders' working on transit datasets
+ has grown tremendously, and a number of applications using this data have
+ been produced.
+ 
+\end_layout
+
+\begin_layout Standard
+Use the GTFS data model to walk through problems.
+ 
+\end_layout
+
+\begin_layout Standard
+The purpose of this guide is intended to explain some of the more common
+ errors in the process of GTFS creation and to provide a statring point
+ for a dialog between the parties involved.
+ Its audience is intended to be developers who are new to transit data,
+ and also those who generate the data in question.
+\end_layout
+
+\begin_layout Standard
+Infrastructure predates buzzwords, SOA, XML, REST, etc.
+\end_layout
+
+\begin_layout Standard
+IT projects that grow organically over a number of years tend to have a
+ lot of seemingly meaningless complexity, and transport data is no exception.
+ Organizations that have built out their own infrastructure prior to the
+ availability of open standards and turn-key solutions often find integrating
+ a new system a challenge.
+ New ITS projects require more tight coupling than existing practice.
+ For example, a scheduling system with inaccurate stops feeding into an
+ automated announcement system.
+ With incorrect data, announcements may be made at the incorrect location,
+ or for stops that are not scheduled.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Systems_Diagram.eps
+	width 8in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Disclaimer.
+\end_layout
+
+\begin_layout Subsection
+About the Author
+\end_layout
+
+\begin_layout Standard
+Nearly a decade of transporation data debugging experience.
+ Worked with data from systems of the major off-the-shelf AVL providers
+ in the US, as well as systems that are not COTS.
+\end_layout
+
+\begin_layout Chapter
+Key Concepts
+\end_layout
+
+\begin_layout Section*
+Accuracy and Precision
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Marginnote
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+Precision
+\emph default
+ of an example stop dataset, in ascending precision:
+\end_layout
+
+\begin_layout Itemize
+A stop is at Main and 1st Street.
+ 
+\end_layout
+
+\begin_layout Itemize
+A stop is at Main and 1st Street, Northbound.
+\end_layout
+
+\begin_layout Itemize
+A stop is at Main and 1st Street, Northbound, NE corner.
+\end_layout
+
+\begin_layout Itemize
+A stop is at Main and 1st Street, Northbound, NE corner, with coordinates
+ X, Y.
+\end_layout
+
+\begin_layout Itemize
+A stop is at Main and 1st Street, Northbound, NE corner, with coordinates
+ X.XXXXX, Y.YYYYY, served by Route 101.
+ 
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Two terms are often used to describe the quality of a dataset--- 
+\emph on
+accuracy
+\emph default
+ and 
+\emph on
+precison
+\emph default
+.
+ The 
+\emph on
+accuracy
+\emph default
+ of a dataset is the degree of closeness that a record or observation matches
+ the real-world value.
+ 
+\emph on
+Precision
+\emph default
+ refers to the level of refinement available in the dataset to store said
+ record.
+ A crucial example, almost ubiquitous, dataset of relevance to transit data
+ projects is a stop dataset.
+ A stop dataset provides a simple case for differing levels of precision
+ and accuracy, and these two concepts are described in the margin.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Marginnote
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+\SpecialChar \textcompwordmark{}
+Accuracy
+\emph default
+ of the example stop dataset is dependent on:
+\end_layout
+
+\begin_layout Itemize
+Notification of changes 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+(e.g.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+The stop at Main and 1st was removed due to construction
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Master database update frequency 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+(i.e.
+ when does the notification get entered into the central system)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Frequency of exports and releases
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+(i.e.
+ at what interval is GTFS generated from the master database)
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A dataset can be accurate but not precise, precise but not accurate, neither,
+ or both.
+ Some organizations conduct expensive, highly detailed stop surveys which
+ are both precise and accurate at the time of their creation.
+ Due to changes on the ground, accuracy of that dataset degrades over time
+ if it is not updated.
+\end_layout
+
+\begin_layout Section*
+Concurrency
+\end_layout
+
+\begin_layout Standard
+Precision and accuracy are important when considering a project that only
+ uses one dataset.
+ One additional element that is not often discussed is what may be called
+ the 
+\emph on
+concurrency
+\emph default
+ of data in the system.
+ It is often said that a system is only as good as its weakest component,
+ and building a system where datasets are of varying quality and left unmodified
+ often leads to 
+\end_layout
+
+\begin_layout Standard
+If a new transit project requires data from multiple systems (e.g.
+ a output from a scheduling system, various hand-maintained outputs, an
+ AVL system, and a timekeeping system), you should be able to trace data
+ using a 'key' field from one end of the pipeline to the other.
+ A medium to large-size public transport operation may have an IT workflow
+ of many stages, often covered by different departments or even different
+ public/private agencies.
+ In short, systems must agree to be useful
+\end_layout
+
+\begin_layout Standard
+Data should be machine readable, not just human readable.
+ If a system has previously been used with the sole aim of output for human
+ interpretation, it is likely that in places data are conflated together.
+ Fixing this often means splitting out one or a few fields in to many, which
+ can be combined programatically in a user interface.
+\end_layout
+
+\begin_layout Standard
+The design of concurrent systems often entails finding reliable techniques
+ for coordinating their execution, data exchange, and execution scheduling
+ to minimize response time and maximise utility
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Modified from the related Wikipedia entry on concurrency https://en.wikipedia.org/
+wiki/Concurrency_%28computer_science%29
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section*
+Requirements for data based on project type
+\end_layout
+
+\begin_layout Standard
+In growing:
+\end_layout
+
+\begin_layout Standard
+Scheduling
+\end_layout
+
+\begin_layout Standard
+Detailed Scheduling
+\end_layout
+
+\begin_layout Standard
+AVL
+\end_layout
+
+\begin_layout Standard
+Static Trip Planning
+\end_layout
+
+\begin_layout Standard
+Customer Information
+\end_layout
+
+\begin_layout Standard
+On Board Announcements
+\end_layout
+
+\begin_layout Standard
+Real-Time Trip Planning
+\end_layout
+
+\begin_layout Section*
+The one thing that's never in the contract.
+\end_layout
+
+\begin_layout Standard
+The people who develop transit data are human.
+ They often will not have the same stated priorities as you do.
+ For many of them, the work they have done, sometimes for decades, has been
+ either been good enough or exceeded their needs.
+ Engaging in a project with greater requirements for precision, accuracy,
+ and concurrency will require the help of those who develop that data; outsiders
+ coming in and requesting changes to longstanding business practices are
+ often met with resistance.
+ In this case, it is helpful to identify your contacts-- both middle-management
+ and rank-and-file.
+ Do not hesitate to reach out to them, explain the goals of the project
+ and open a regular dialog, before there is any trouble.
+ This pays off when you come asking for changes; most projects require improveme
+nts in either precision, accuracy, or concurrency.
+\end_layout
+
+\begin_layout Section*
+What can you offer someone who's working with you?
+\end_layout
+
+\begin_layout Standard
+Scheduling is a data-driven business.
+ An ITS project can collect a lot of data: running times, operational metrics,
+ trip-planner queries, passenger counts, origin-destination matricies, dwell-tim
+e information, stop locations, etc.
+ Brush up on what you can provide (within reason) and bring that to the
+ table.
+ 
+\end_layout
+
+\begin_layout Chapter*
+The GTFS and it's relation to the 'Common' scheduling model.
+\end_layout
+
+\begin_layout Standard
+As the GTFS model does not always match the common scheduling model, some
+ sections below contain additional information.
+ 
+\end_layout
+
+\begin_layout Section
+Trips.txt
+\end_layout
+
+\begin_layout Standard
+A movement from origin to destination, where origin or destination may be
+ a garage or terminal.
+ Trips may either be revenue (in service) or non-revenue (e.g.
+ pullout from depot, pullin to depot, deadhead between locations or 'layover'
+ at one location).
+\end_layout
+
+\begin_layout Standard
+Related although not covered explicitly in the GTFS model are trip Patterns
+ (also called variants): a specific series of stops and routing that can
+ be repeated one or many times within a schedule.
+ GTFS can handle trip patterns by specifying a base trip and making an entry
+ in the frequencies.txt file.
+\end_layout
+
+\begin_layout Standard
+Block: set of bus movements that begin at a depot (the first movement being
+ a “pullout”) and end at a depot (the last movement being a “pullin”).
+ A block consists of a series of complete revenue and non-revenue trips.
+ One vehicle can serve multiple blocks in a day.
+ GTFS provides optional block_id support in the trips.txt file, specifically
+ for when 
+\begin_inset Quotes eld
+\end_inset
+
+a passenger can transfer from one trip to the next just by staying in the
+ vehicle.
+\begin_inset Quotes erd
+\end_inset
+
+ It is common that the strict GTFS definition is not actually followed by
+ processes that generate GTFS.
+ Block identifiers are highly useful when joining data from two different
+ sources.
+ 
+\end_layout
+
+\begin_layout Standard
+Run: an operator’s daily work assignment, which covers a series of partial
+ or complete trips.
+ One or more runs can work a single block.
+ Runs can also work on multiple vehicles/blocks.
+ GTFS, in its purest form, does not model blocks; understanding the limits
+ in a vehicle operator's scheduled work, however, may uncover errors that
+ present themselves in transit data.
+\end_layout
+
+\begin_layout Standard
+The difference between runs, blocks and trips, is illustrated in the diagram
+ below: Figure 3: Example Run/Trip/Block Time-Space Diagram
+\end_layout
+
+\begin_layout Section
+Calendar.txt
+\end_layout
+
+\begin_layout Standard
+Service Date: a given trip, block, or run of transit service may span multiple
+ calendar days.
+ However, each of these is associated with a particular “service date” defining
+ the calendar data used for record-keeping of that unit of service.
+ For example, a run might span from 11:00pm on a Saturday until 5:00am Sunday.
+ In this case, the run, and all trips on that run, will be typically associated
+ with the service date equal to the date on which most of the service occurred,
+ even if they actually occur on the date prior.
+\end_layout
+
+\begin_layout Standard
+Service ID / Service Class: an abstraction for specifying the set of trips
+ that will run on a certain type of day (e.g.
+ Weekday, Saturday, Holiday).
+ One Service Date will have one Service Class.
+ GTFS models these in the calendar.txt and calendar_dates.txt files.
+\end_layout
+
+\begin_layout Section
+Shapes.txt
+\end_layout
+
+\begin_layout Standard
+Shapes or Paths are often generated by performing a network analysis, tracing
+ a route along a defined street or track network.
+ Depending on the system, a data provider may use an existing off-the-shelf
+ dataset as a base, modify said dataset, or have their own network.
+ There are many problems that can arise when the underlying dataset is not
+ accurate; see later in this document for further examples.
+ 
+\end_layout
+
+\begin_layout Chapter*
+The GTFS Model and Issues That May Arise
+\end_layout
+
+\begin_layout Section*
+Shapes.txt 
+\end_layout
+
+\begin_layout Standard
+Incomplete networks.
+ Bad topology.
+ Physically impossible routings
+\end_layout
+
+\begin_layout Standard
+-- missing sections
+\end_layout
+
+\begin_layout Section*
+Stops.txt
+\end_layout
+
+\begin_layout Subsection*
+Like in Real Estate
+\end_layout
+
+\begin_layout Standard
+It is often said that the only thing that matters in real estate is 
+\begin_inset Quotes eld
+\end_inset
+
+Location, Location, Location.
+\begin_inset Quotes erd
+\end_inset
+
+ This is also true for stop locations and names in transit data.
+ Stops need to be accurate to a reasonable amount because:
+\end_layout
+
+\begin_layout Standard
+Terminals and Layovers
+\end_layout
+
+\begin_layout Standard
+Announcements
+\end_layout
+
+\begin_layout Standard
+Lining data up between agencies
+\end_layout
+
+\begin_layout Subsection*
+When is a stop not a stop?
+\end_layout
+
+\begin_layout Standard
+Often, automated scheduling software does not draw a shape correctly.
+ In order to help the automated routing algorithm to make the correct route,
+ schedulers often insert 'dummy stops,' where non-revenue stops are included
+ in the system.
+ Dummy stops may also be included to faciltate scheduling and road operations
+ (e.g.
+ 'this trip should pass First Ave and Main St at 5:00').
+ As these are non-revenue stops, they should not make it into a trip planner
+ or AVL system.
+\end_layout
+
+\begin_layout Standard
+Trips - Concurrency
+\end_layout
+
+\begin_layout Standard
+Awry: Physically impossible routings 
+\end_layout
+
+\begin_layout Standard
+Stops and Stop_times out of geo / temporal order 
+\end_layout
+
+\begin_layout Standard
+What happens around midnight 
+\end_layout
+
+\begin_layout Standard
+Layover / Terminal Locations 
+\end_layout
+
+\begin_layout Standard
+Missing data (e.g.
+ shapes, trips) 
+\end_layout
+
+\end_body
+\end_document
