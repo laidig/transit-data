@@ -87,18 +87,18 @@ Introduction
 The last decade has seen an explosion in the availability of data, and public
  transit is no exception.
  The development of the General (originally Google) Transit Feed Structure
- (GTFS) in 2005 brought to light data that was previously available with
- reduced only on paper or in more complex (e.g.
- TransXchange) and/or proprietary (e.g.
- TSDE) formats.
+ (GTFS) in 2005 brought to light data that was previously available to the
+ public only on paper.
+ Previously, when data was available for interchange internally, it was
+ less accessible-- usually in more complex (e.g.
+ TransXchange, TCIP), proprietary (e.g.
+ TSDE) or home-grown formats.
+ GTFS brings transit data into a modern, open, and easily-consumable world
+ by presenting a simplified standard that many developers can use without
+ the knowing the intricacies of transit operations.
  Since that time, the number of 'outsiders' working on transit datasets
  has grown tremendously, and a number of applications using this data have
  been produced.
- 
-\end_layout
-
-\begin_layout Standard
-Use the GTFS data model to walk through problems.
  
 \end_layout
 
@@ -108,18 +108,53 @@ The purpose of this guide is intended to explain some of the more common
  for a dialog between the parties involved.
  Its audience is intended to be developers who are new to transit data,
  and also those who generate the data in question.
+ It is not intended to supplant the existing official GTFS documentation
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+https://developers.google.com/transit/gtfs/reference
+\end_layout
+
+\end_inset
+
+ or be a survey of the practice in ITS systems implementation and engineering
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+There are better sources on that, such as http://www.fta.dot.gov/documents/2010Tran
+sitITSArchRvw_-_08.29.2011.pdf
+\end_layout
+
+\end_inset
+
+.
+ This guide is written from the viewpoint established, 'formalized,' transportat
+ion networks in mind, those often run with a high degree of government oversight
+ and/or operation.
+ There is an ongoing effort to extend GTFS to more 'informal' environments;
+ while parts of this guide may be useful in these cases, it can certainly
+ use extension to cover additional situations that are uncommon in formalized
+ networks.
+\end_layout
+
+\begin_layout Subsection
+A whirlwind introduction to Transit IT
 \end_layout
 
 \begin_layout Standard
-Infrastructure predates buzzwords, SOA, XML, REST, etc.
-\end_layout
-
-\begin_layout Standard
-IT projects that grow organically over a number of years tend to have a
- lot of seemingly meaningless complexity, and transport data is no exception.
- Organizations that have built out their own infrastructure prior to the
- availability of open standards and turn-key solutions often find integrating
- a new system a challenge.
+Established transportation agencies often have legacy IT infrastructure
+ in regular use.
+ While buzzwords such as SOA, XML, REST, etc.
+ may be known to their staff, organizations, especially in the public sector,
+ are not always able to apply constant upgrades to their systems when supporting
+ ongoing operations is imperative.
+ In this situation, IT systems that grow organically over a number of years
+ tend to have, for better or worse, a lot of seemingly meaningless complexity.
+ Furthermore, organizations that have built out their own infrastructure
+ prior to the availability of open standards and turn-key solutions often
+ find integrating a new system a challenge.
  New ITS projects require more tight coupling than existing practice.
  For example, a scheduling system with inaccurate stops feeding into an
  automated announcement system.
@@ -173,18 +208,27 @@ end{landscape}
 Disclaimer.
 \end_layout
 
-\begin_layout Subsection
-About the Author
-\end_layout
-
 \begin_layout Standard
-Nearly a decade of transporation data debugging experience.
- Worked with data from systems of the major off-the-shelf AVL providers
- in the US, as well as systems that are not COTS.
+This guide is the result of a career's worth of experience with transit
+ data.
+ In the process, the author has worked with data from dozens of transportation
+ agencies, of varying sizes, both in the USA and abroad.
+ The information within should not be considered the result of experience
+ with any one particular employer.
+ Often the same mistake has been encountered in at various times working
+ with wholly different data sets.
 \end_layout
 
 \begin_layout Chapter
 Key Concepts
+\end_layout
+
+\begin_layout Standard
+This chapter presents three crucial concepts that underlie the information
+ presented later in this guide.
+ The exmples presented use an ubiquitous dataset in every transit data project,
+ a dataset of stops..
+ 
 \end_layout
 
 \begin_layout Section*
@@ -262,8 +306,6 @@ Precision
 \emph default
  refers to the level of refinement available in the dataset to store said
  record.
- A crucial example, almost ubiquitous, dataset of relevance to transit data
- projects is a stop dataset.
  A stop dataset provides a simple case for differing levels of precision
  and accuracy, and these two concepts are described in the margin.
  
@@ -279,7 +321,7 @@ status open
 \SpecialChar \textcompwordmark{}
 Accuracy
 \emph default
- of the example stop dataset is dependent on:
+ of the example stop dataset is dependent various factors, including:
 \end_layout
 
 \begin_layout Itemize
@@ -288,7 +330,7 @@ Notification of changes
 
 \begin_deeper
 \begin_layout Itemize
-(e.g.
+e.g.
  
 \begin_inset Quotes eld
 \end_inset
@@ -297,7 +339,7 @@ The stop at Main and 1st was removed due to construction
 \begin_inset Quotes erd
 \end_inset
 
-)
+
 \end_layout
 
 \end_deeper
@@ -307,8 +349,8 @@ Master database update frequency
 
 \begin_deeper
 \begin_layout Itemize
-(i.e.
- when does the notification get entered into the central system)
+i.e.
+ when does the notification get entered into the central system
 \end_layout
 
 \end_deeper
@@ -318,8 +360,8 @@ Frequency of exports and releases
 
 \begin_deeper
 \begin_layout Itemize
-(i.e.
- at what interval is GTFS generated from the master database)
+i.e.
+ at what interval is GTFS generated from the master database
 \end_layout
 
 \end_deeper
@@ -333,8 +375,14 @@ A dataset can be accurate but not precise, precise but not accurate, neither,
  or both.
  Some organizations conduct expensive, highly detailed stop surveys which
  are both precise and accurate at the time of their creation.
- Due to changes on the ground, accuracy of that dataset degrades over time
- if it is not updated.
+ It is not uncommon for this survey to be considered a capital project,
+ and upon completion the dataset's owners often 'wipe their hands,' believing
+ that the work is done.
+ This, however, is often a folly.
+ Due to changes on the ground, accuracy of a stop dataset degrades over
+ time if it is not updated.
+ Streets are paved and closed, businesses open and close, and in some areas
+ new neighborhoods are constructed quickly.
 \end_layout
 
 \begin_layout Section*
@@ -342,16 +390,92 @@ Concurrency
 \end_layout
 
 \begin_layout Standard
-Precision and accuracy are important when considering a project that only
- uses one dataset.
- One additional element that is not often discussed is what may be called
- the 
+While precision and accuracy are important when considering a project that
+ only uses, or heavily relies upon one dataset.
+ The elephant in the room in projects that draw upon data from multiple
+ systems is the 
 \emph on
 concurrency
 \emph default
- of data in the system.
- It is often said that a system is only as good as its weakest component,
- and building a system where datasets are of varying quality and left unmodified
+ of that data.
+ Concurrency, in this case, refers to the ability to join, reliably, the
+ data from one or many systems
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Yes, systems have the opportunity to not be concurrent with themselves.
+ Oftentimes, large transit operations use their scheduling systems in phases,
+ where one area may be ready for production while the rest of the network
+ is being worked on.
+ For example, Routes 1 and 2 pass by the stop at 1st and Main St.
+ Route 1 is ready at an earlier date than Route 2.
+ When Route 2 is scheduled, the scheduler notices that there will be long
+ term construction at 1st and Main St and buses cannot stop there.
+ When data is export from the scheduling system, Route 1 will still be recorded
+ as stopping at 1st and Main, even though the network has been changed.
+\end_layout
+
+\end_inset
+
+.
+ The design of concurrent systems often entails finding reliable techniques
+ for coordinating their execution, data exchange, and execution scheduling
+ to minimize confusion and maximise utility
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Inspired by Wikipedia entry on concurrency https://en.wikipedia.org/wiki/Concurren
+cy_%28computer_science%29
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection*
+The Enemies of Concurrency
+\end_layout
+
+\begin_layout Standard
+It is often said that a system is only as good as its weakest component.
+ While it is difficult to quantify concurrency, it is possible to suggest
+ characteristics of 'weaker' data sources that should be validated before
+ use.
+ Some of these are:
+\end_layout
+
+\begin_layout Itemize
+Possibility of Unsanitized / Unvalidated data entry
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If an operator can enter data that is invalid or non-sensical, then the
+ system must take this possibility into account.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Long update intervals
+\end_layout
+
+\begin_layout Itemize
+Poor documentation / unclear interpretation
+\end_layout
+
+\begin_layout Itemize
+Complex 'key' structure
+\end_layout
+
+\begin_layout Itemize
+Data intended for human visual consumption.
+\end_layout
+
+\begin_layout Standard
+and building a system where datasets are of varying quality and left unmodified
  often leads to 
 \end_layout
 
@@ -362,33 +486,22 @@ If a new transit project requires data from multiple systems (e.g.
  using a 'key' field from one end of the pipeline to the other.
  A medium to large-size public transport operation may have an IT workflow
  of many stages, often covered by different departments or even different
- public/private agencies.
- In short, systems must agree to be useful
+ agencies, public and private.
+ The less that the systems involved are concurrent, the more difficult building
+ a new system upon those projects will be.
 \end_layout
 
 \begin_layout Standard
+Some thoughts on concurrency:
+\end_layout
+
+\begin_layout Itemize
 Data should be machine readable, not just human readable.
  If a system has previously been used with the sole aim of output for human
- interpretation, it is likely that in places data are conflated together.
+ interpretation, it is likely that in places data are conflated together
+ or that the data does .
  Fixing this often means splitting out one or a few fields in to many, which
  can be combined programatically in a user interface.
-\end_layout
-
-\begin_layout Standard
-The design of concurrent systems often entails finding reliable techniques
- for coordinating their execution, data exchange, and execution scheduling
- to minimize response time and maximise utility
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-Modified from the related Wikipedia entry on concurrency https://en.wikipedia.org/
-wiki/Concurrency_%28computer_science%29
-\end_layout
-
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Section*
@@ -435,7 +548,7 @@ The one thing that's never in the contract.
 The people who develop transit data are human.
  They often will not have the same stated priorities as you do.
  For many of them, the work they have done, sometimes for decades, has been
- either been good enough or exceeded their needs.
+ either met or exceeded their needs.
  Engaging in a project with greater requirements for precision, accuracy,
  and concurrency will require the help of those who develop that data; outsiders
  coming in and requesting changes to longstanding business practices are
