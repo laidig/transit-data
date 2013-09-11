@@ -214,9 +214,9 @@ This guide is the result of a career's worth of experience with transit
  In the process, the author has worked with data from dozens of transportation
  agencies, of varying sizes, both in the USA and abroad.
  The information within should not be considered the result of experience
- with any one particular employer.
- Often the same mistake has been encountered in at various times working
- with wholly different data sets.
+ with any one particular employer, and where not cited, the opinions expressed
+ are of the primary author alone.
+ 
 \end_layout
 
 \begin_layout Chapter
@@ -454,7 +454,7 @@ Possibility of Unsanitized / Unvalidated data entry
 \begin_deeper
 \begin_layout Itemize
 If an operator can enter data that is invalid or non-sensical, then the
- system must take this possibility into account.
+ system that uses it must take this possibility into account.
 \end_layout
 
 \end_deeper
@@ -462,6 +462,14 @@ If an operator can enter data that is invalid or non-sensical, then the
 Long update intervals
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+For a bus system, a stop dataset that is updated every several years is
+ likely to have errors.
+ For rail systems, this is not as severe of an issue.
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 Poor documentation / unclear interpretation
 \end_layout
@@ -472,6 +480,10 @@ Complex 'key' structure
 
 \begin_layout Itemize
 Data intended for human visual consumption.
+\end_layout
+
+\begin_layout Itemize
+No / limited versioning
 \end_layout
 
 \begin_layout Standard
@@ -509,7 +521,7 @@ Requirements for data based on project type
 \end_layout
 
 \begin_layout Standard
-In growing:
+In growing order of precision, accuracy, and concurrency:
 \end_layout
 
 \begin_layout Standard
@@ -521,7 +533,7 @@ Detailed Scheduling
 \end_layout
 
 \begin_layout Standard
-AVL
+CAD/AVL
 \end_layout
 
 \begin_layout Standard
@@ -529,7 +541,7 @@ Static Trip Planning
 \end_layout
 
 \begin_layout Standard
-Customer Information
+Real-Time Customer Information
 \end_layout
 
 \begin_layout Standard
@@ -573,6 +585,22 @@ e information, stop locations, etc.
  Brush up on what you can provide (within reason) and bring that to the
  table.
  
+\end_layout
+
+\begin_layout Section
+A metric for asking for changes
+\end_layout
+
+\begin_layout Standard
+Before undertaking a project that deals with data from multiple systems,
+ it is easier for all parties when there is a policy on what data should
+ be updated and when.
+ One framework that may be useful in quantifying the value of updates to
+ data is to define changes in service according to three separate characteristic
+s over three dimensions: (temporal) duration, (spatial) extent, and (human)
+ magnitude.
+ By setting a bar for making changes according to these characteristics,
+ the back-and-forth can largely be reduced.
 \end_layout
 
 \begin_layout Chapter*
