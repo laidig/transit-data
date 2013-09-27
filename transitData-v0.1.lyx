@@ -94,9 +94,9 @@ The last decade has seen an explosion in the availability of data, and public
  TransXchange, TCIP), proprietary (e.g.
  TSDE) or home-grown formats.
  GTFS brings transit data into a modern, open, and easily-consumable world
- by presenting a simplified standard that many developers can use without
- the knowing the intricacies of transit operations.
- Since that time, the number of 'outsiders' working on transit datasets
+ by presenting a simplified de-facto standard that many developers can use
+ without the knowing the intricacies of transit operations.
+ Since that time, the number of 'outsiders' working with transit datasets
  has grown tremendously, and a number of applications using this data have
  been produced.
  
@@ -155,7 +155,7 @@ Established transportation agencies often have legacy IT infrastructure
  Furthermore, organizations that have built out their own infrastructure
  prior to the availability of open standards and turn-key solutions often
  find integrating a new system a challenge.
- New ITS projects require more tight coupling than existing practice.
+ New ITS projects may require more tight coupling than existing practice.
  For example, a scheduling system with inaccurate stops feeding into an
  automated announcement system.
  With incorrect data, announcements may be made at the incorrect location,
@@ -212,23 +212,25 @@ Disclaimer.
 This guide is the result of a career's worth of experience with transit
  data.
  In the process, the author has worked with data from dozens of transportation
- agencies, of varying sizes, both in the USA and abroad.
+ agencies, of varying sizes, both in the USA and internationally.
  The information within should not be considered the result of experience
- with any one particular employer, and where not cited, the opinions expressed
- are of the primary author alone.
+ with any one particular entity, and where not cited, the opinions expressed
+ are of the primary author alone and not of any other individual, company,
+ agency, government, or interstellar federation.
  
 \end_layout
 
 \begin_layout Chapter
-Key Concepts
+A PACT for Good Data
 \end_layout
 
 \begin_layout Standard
-This chapter presents three crucial concepts that underlie the information
- presented later in this guide.
+This chapter presents fout crucial concepts that underlie the information
+ presented later in this guide, and that are important in describing the
+ qualities of a system's data.
+ These are Precision, Accuracy, Concurrency, and Transparency, or PACT.
  The exmples presented use an ubiquitous dataset in every transit data project,
- a dataset of stops..
- 
+ a dataset of stops.
 \end_layout
 
 \begin_layout Section*
@@ -375,7 +377,7 @@ A dataset can be accurate but not precise, precise but not accurate, neither,
  or both.
  Some organizations conduct expensive, highly detailed stop surveys which
  are both precise and accurate at the time of their creation.
- It is not uncommon for this survey to be considered a capital project,
+ It is not uncommon for this survey to be considered part of a capital project,
  and upon completion the dataset's owners often 'wipe their hands,' believing
  that the work is done.
  This, however, is often a folly.
@@ -398,8 +400,8 @@ While precision and accuracy are important when considering a project that
 concurrency
 \emph default
  of that data.
- Concurrency, in this case, refers to the ability to join, reliably, the
- data from one or many systems
+ Concurrency, in this case, refers to the ability to join together, reliably,
+ the data from one or many systems
 \begin_inset Foot
 status open
 
@@ -433,6 +435,8 @@ cy_%28computer_science%29
 \end_inset
 
 .
+ Data from systems originally designed to work independently may need some
+ finesse to properly match.
 \end_layout
 
 \begin_layout Subsection*
@@ -471,42 +475,223 @@ For a bus system, a stop dataset that is updated every several years is
 
 \end_deeper
 \begin_layout Itemize
-Poor documentation / unclear interpretation
-\end_layout
-
-\begin_layout Itemize
-Complex 'key' structure
-\end_layout
-
-\begin_layout Itemize
-Data intended for human visual consumption.
-\end_layout
-
-\begin_layout Itemize
 No / limited versioning
 \end_layout
 
 \begin_layout Standard
-and building a system where datasets are of varying quality and left unmodified
- often leads to 
-\end_layout
-
-\begin_layout Standard
-If a new transit project requires data from multiple systems (e.g.
- a output from a scheduling system, various hand-maintained outputs, an
- AVL system, and a timekeeping system), you should be able to trace data
- using a 'key' field from one end of the pipeline to the other.
- A medium to large-size public transport operation may have an IT workflow
+A medium to large-size public transport operation may have an IT workflow
  of many stages, often covered by different departments or even different
  agencies, public and private.
  The less that the systems involved are concurrent, the more difficult building
  a new system upon those projects will be.
 \end_layout
 
-\begin_layout Standard
-Some thoughts on concurrency:
+\begin_layout Chapter
+Transparancy
 \end_layout
 
+\begin_layout Standard
+Hopefully, when working with data from an existing system, there is documentatio
+n on what that data means.
+ Often, however, when the data has only been used for one purpose or within
+ one organization, the documentation is not complete.
+ Transparency refers to the degree to which the data conforms to the documentati
+on provided.
+\end_layout
+
+\begin_layout Itemize
+Poor and/or obsolete documentation
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+After implementation, some systems start off well-documented, but as time
+ goes on and minor changes are made to both the data and the usage of that
+ data, documentation is not always updated.
+ Well-intentioned users may extend the existing data structure beyond the
+ original design by adding additional information that does not strictly
+ conform to the specifications, and not amending documentation to indicate
+ this.
+ This information may or may not be passed down through word of mouth.
+\end_layout
+
+\begin_layout Itemize
+Agencies often take advantage of 'turnkey' systems that include an openly-access
+ible database component often add additional functionality 'around the edges.'
+ It is the author's experience that these additions are rarely documented.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Special cases
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+IT groups may tailor the same application for different users performing
+ the same task within the same organization, often based upon varying user
+ preferences.
+ For example, one operating division may prefer that their route numbers
+ begin with a leading zero, while another may not.
+ Beware this special case.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Excessive room for interpretation and/or lack of usage conventions.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If a data model allows for the same data can be stored in two places, it
+ is often the case that different users see the data differently.
+ For example, if a data model has fields for both STOP_ID (intented to be
+ a normalized key) and STOP_CODE (intended to be a short, but human-readable
+ descriptor) and users fail to understand this difference, users at may
+ choose to populate these fields in ways that are not consistent across
+ the dataset.
+ A very basic example is presented in the margin.
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+STOP_ID
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+STOP_CODE
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1001
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1002
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Undefined and/or complex key structure
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+a 'Primary Key' uniquely defines the characteristics of each record in a
+ dataset, and has to consist of characteristics that cannot be duplicated
+ by any other row.
+ If the key structure for a dataset is not clearly defined or not enforced,
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Data intended for human visual consumption.
+\end_layout
+
+\begin_deeper
 \begin_layout Itemize
 Data should be machine readable, not just human readable.
  If a system has previously been used with the sole aim of output for human
@@ -516,6 +701,7 @@ Data should be machine readable, not just human readable.
  can be combined programatically in a user interface.
 \end_layout
 
+\end_deeper
 \begin_layout Section*
 Requirements for data based on project type
 \end_layout
@@ -542,6 +728,10 @@ Static Trip Planning
 
 \begin_layout Standard
 Real-Time Customer Information
+\end_layout
+
+\begin_layout Standard
+Reporting
 \end_layout
 
 \begin_layout Standard
@@ -588,23 +778,47 @@ e information, stop locations, etc.
 \end_layout
 
 \begin_layout Section
-A metric for asking for changes
+Changes: when and why.
 \end_layout
 
 \begin_layout Standard
-Before undertaking a project that deals with data from multiple systems,
- it is easier for all parties when there is a policy on what data should
- be updated and when.
+Given the complex nature of many transit systems, the question is not if
+ data will need changing, but when and how.
+ When implementing a complex system using data from another party, it is
+ often easier for all parties when the data producers and users agree on
+ a policy on what data should be updated and at what moment.
  One framework that may be useful in quantifying the value of updates to
- data is to define changes in service according to three separate characteristic
-s over three dimensions: (temporal) duration, (spatial) extent, and (human)
- magnitude.
- By setting a bar for making changes according to these characteristics,
- the back-and-forth can largely be reduced.
+ data is to define changes in service over three dimensions: 
+\end_layout
+
+\begin_layout Itemize
+(temporal) duration, the amount of time that the change will be in effect;
+\end_layout
+
+\begin_layout Itemize
+(spatial) extent, the area over which the change affects; and 
+\end_layout
+
+\begin_layout Itemize
+(human) magnitude, the number of customers/passengers that are affected.
+ 
+\end_layout
+
+\begin_layout Standard
+By setting a bar for making changes according to these characteristics,
+ downstream users ca
 \end_layout
 
 \begin_layout Chapter*
-The GTFS and it's relation to the 'Common' scheduling model.
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Common
+\begin_inset Quotes erd
+\end_inset
+
+ scheduling model.
 \end_layout
 
 \begin_layout Standard
@@ -613,7 +827,7 @@ As the GTFS model does not always match the common scheduling model, some
  
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Trips.txt
 \end_layout
 
@@ -670,7 +884,7 @@ The difference between runs, blocks and trips, is illustrated in the diagram
  below: Figure 3: Example Run/Trip/Block Time-Space Diagram
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Calendar.txt
 \end_layout
 
@@ -693,7 +907,7 @@ Service ID / Service Class: an abstraction for specifying the set of trips
  GTFS models these in the calendar.txt and calendar_dates.txt files.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Shapes.txt
 \end_layout
 
