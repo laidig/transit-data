@@ -93,9 +93,9 @@ The last decade has seen an explosion in the availability of data, and public
  less accessible-- usually in more complex (e.g.
  TransXchange, TCIP), proprietary (e.g.
  TSDE) or home-grown formats.
- GTFS brings transit data into a modern, open, and easily-consumable world
- by presenting a simplified de-facto standard that many developers can use
- without the knowing the intricacies of transit operations.
+ GTFS brings transit schedule data into a modern, open, and easily-consumable
+ world by presenting a simplified de-facto standard that many developers
+ can use without the knowing the intricacies of transit operations.
  Since that time, the number of 'outsiders' working with transit datasets
  has grown tremendously, and a number of applications using this data have
  been produced.
@@ -103,11 +103,11 @@ The last decade has seen an explosion in the availability of data, and public
 \end_layout
 
 \begin_layout Standard
-The purpose of this guide is intended to explain some of the more common
- errors in the process of GTFS creation and to provide a statring point
- for a dialog between the parties involved.
- Its audience is intended to be developers who are new to transit data,
- and also those who generate the data in question.
+The purpose of this guide is intended to explain some of the intricacies
+ in the process of GTFS creation and to provide a statring point for a dialog
+ between the parties involved through practical qualitative concepts.
+ Its audience is intended to be developers who work with transit schedul
+ data, and also those who generate the data in question.
  It is not intended to supplant the existing official GTFS documentation
 \begin_inset Foot
 status collapsed
@@ -118,6 +118,7 @@ https://developers.google.com/transit/gtfs/reference
 
 \end_inset
 
+, provide anything more than a brief introduction to scheduling practice,
  or be a survey of the practice in ITS systems implementation and engineering
 \begin_inset Foot
 status collapsed
@@ -130,13 +131,73 @@ sitITSArchRvw_-_08.29.2011.pdf
 \end_inset
 
 .
- This guide is written from the viewpoint established, 'formalized,' transportat
-ion networks in mind, those often run with a high degree of government oversight
- and/or operation.
+ This guide is written from the viewpoint of established, 'formalized,'
+ transportation networks, which often run with a high degree of government
+ oversight and/or operation.
  There is an ongoing effort to extend GTFS to more 'informal' environments;
  while parts of this guide may be useful in these cases, it can certainly
  use extension to cover additional situations that are uncommon in formalized
  networks.
+\end_layout
+
+\begin_layout Section
+Why Schedule?
+\end_layout
+
+\begin_layout Standard
+It is quite common for the layman to ask, that a world of real-time information,
+ what purpose does a schedule serve? TCRP Report 135 (perhaps the best freely
+ available guide on the topic of transit scheduling) defines four major
+ groups that benefit from the existence of schedules:
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+To customers, a schedule provides the essential information needed to plan
+ a trip, defines the arrival and departure times and the time the trip will
+ take, makes sufficient capacity of service available so that the customers’
+ trip will be comfortable, and ensures that customers will arrive at their
+ destination at the promised time.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+To operators, scheduling defines the workday.
+ Operators are the front line in terms of dealing with customers, and the
+ interaction can be affected by running and layover times ...
+ Good schedules can reduce the stress inherent in this job, thus improving
+ morale and minimizing absenteeism.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+To transit agencies, scheduling puts reliable service on the street where
+ it will be most utilized.
+ In addition, scheduling provides data and information to support other
+ sections such as Marketing, Planning, Operations, Administration, and many
+ downstream systems like AVL, APCs, voice annunciators, trip planners, and
+ real time information systems.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+To general managers and chief financial officers, scheduling has major impacts
+ on the quality and cost of operations...
+ Scheduling is the brain of the transit organism in its day-to-day functioning.
+ By its nature, scheduling has the clearest understanding of how and where
+ cost efficiencies can be achieved in daily operations.
+\end_layout
+
+\begin_layout Standard
+Overall, a schedule models what happens 'on the ground' when transit service
+ is delievered.
+ The degree to which the schedule actually models reality plays a large
+ part in its usefulness.
+ The qualitative concepts discussed in Chapter 2 are intended to improve
+ the creation of this model.
 \end_layout
 
 \begin_layout Subsection
@@ -486,7 +547,7 @@ A medium to large-size public transport operation may have an IT workflow
  a new system upon those projects will be.
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Section
 Transparancy
 \end_layout
 
@@ -827,16 +888,12 @@ As the GTFS model does not always match the common scheduling model, some
  
 \end_layout
 
-\begin_layout Subsection
-Trips.txt
-\end_layout
-
 \begin_layout Standard
-A movement from origin to destination, where origin or destination may be
- a garage or terminal.
+A trip is a movement from origin to destination, where origin or destination
+ may be a garage or terminal.
  Trips may either be revenue (in service) or non-revenue (e.g.
- pullout from depot, pullin to depot, deadhead between locations or 'layover'
- at one location).
+ 'pullout' from depot, 'pullin' to depot, deadhead between locations or
+ 'layover' at one location).
 \end_layout
 
 \begin_layout Standard
