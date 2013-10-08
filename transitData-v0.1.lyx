@@ -76,7 +76,19 @@ September, 2013
 \end_layout
 
 \begin_layout Address
-c64@alum.mit.edu
+Disclaimer.
+\end_layout
+
+\begin_layout Address
+This guide is the result of a career's worth of experience with transit
+ data.
+ In the process, the author has worked with data from dozens of transportation
+ agencies, of varying sizes, both in the USA and internationally.
+ The information within should not be considered the result of experience
+ with any one particular entity, and where not cited, the opinions expressed
+ are of the primary author alone and not of any other individual, company,
+ agency, government, or interstellar federation.
+ 
 \end_layout
 
 \begin_layout Chapter
@@ -92,7 +104,7 @@ The last decade has seen an explosion in the availability of data, and public
  Previously, when data was available for interchange internally, it was
  less accessible-- usually in more complex (e.g.
  TransXchange, TCIP), proprietary (e.g.
- TSDE) or home-grown formats.
+ TSDE), or home-grown formats.
  GTFS brings transit schedule data into a modern, open, and easily-consumable
  world by presenting a simplified de-facto standard that many developers
  can use without the knowing the intricacies of transit operations.
@@ -104,9 +116,10 @@ The last decade has seen an explosion in the availability of data, and public
 
 \begin_layout Standard
 The purpose of this guide is intended to explain some of the intricacies
- in the process of GTFS creation and to provide a statring point for a dialog
- between the parties involved through practical qualitative concepts.
- Its audience is intended to be developers who work with transit schedul
+ in the process of transit schedule creation and to provide a statring point
+ for a dialog between the parties involved through practical qualitative
+ concepts.
+ Its audience is intended to be developers who work with transit schedule
  data, and also those who generate the data in question.
  It is not intended to supplant the existing official GTFS documentation
 \begin_inset Foot
@@ -132,8 +145,8 @@ sitITSArchRvw_-_08.29.2011.pdf
 
 .
  This guide is written from the viewpoint of established, 'formalized,'
- transportation networks, which often run with a high degree of government
- oversight and/or operation.
+ transportation networks, run with a high degree of government oversight
+ and/or operation.
  There is an ongoing effort to extend GTFS to more 'informal' environments;
  while parts of this guide may be useful in these cases, it can certainly
  use extension to cover additional situations that are uncommon in formalized
@@ -146,9 +159,11 @@ Why Schedule?
 
 \begin_layout Standard
 It is quite common for the layman to ask, that a world of real-time information,
- what purpose does a schedule serve? TCRP Report 135 (perhaps the best freely
- available guide on the topic of transit scheduling) defines four major
- groups that benefit from the existence of schedules:
+ what purpose does a schedule serve? In short, a schedule models what happens
+ 'on the ground' when transit service is delievered.
+ TCRP Report 135 (perhaps the best freely available guide on the topic of
+ transit scheduling) defines four major groups that benefit from the existence
+ of (realistic) schedules:
 \end_layout
 
 \begin_layout Enumerate
@@ -165,7 +180,7 @@ To customers, a schedule provides the essential information needed to plan
 \noindent
 To operators, scheduling defines the workday.
  Operators are the front line in terms of dealing with customers, and the
- interaction can be affected by running and layover times ...
+ interaction can be affected by [realistic] running and layover times ...
  Good schedules can reduce the stress inherent in this job, thus improving
  morale and minimizing absenteeism.
  
@@ -192,12 +207,11 @@ To general managers and chief financial officers, scheduling has major impacts
 \end_layout
 
 \begin_layout Standard
-Overall, a schedule models what happens 'on the ground' when transit service
- is delievered.
- The degree to which the schedule actually models reality plays a large
- part in its usefulness.
+For these four groups, the degree to which the schedule actually models
+ reality plays a large part in its usefulness.
  The qualitative concepts discussed in Chapter 2 are intended to improve
- the creation of this model.
+ the final result of this model in grading the degree to which it represents
+ reality.
 \end_layout
 
 \begin_layout Subsection
@@ -209,7 +223,7 @@ Established transportation agencies often have legacy IT infrastructure
  in regular use.
  While buzzwords such as SOA, XML, REST, etc.
  may be known to their staff, organizations, especially in the public sector,
- are not always able to apply constant upgrades to their systems when supporting
+ are not always able to apply regular upgrades to their systems when supporting
  ongoing operations is imperative.
  In this situation, IT systems that grow organically over a number of years
  tend to have, for better or worse, a lot of seemingly meaningless complexity.
@@ -217,10 +231,16 @@ Established transportation agencies often have legacy IT infrastructure
  prior to the availability of open standards and turn-key solutions often
  find integrating a new system a challenge.
  New ITS projects may require more tight coupling than existing practice.
- For example, a scheduling system with inaccurate stops feeding into an
- automated announcement system.
+ Take, for example, a scheduling system with inaccurate stops, which then
+ feeds into an automated announcement system.
  With incorrect data, announcements may be made at the incorrect location,
  or for stops that are not scheduled.
+\end_layout
+
+\begin_layout Standard
+A typical transit organization that oversees the operation of several hundred
+ or more buses might have an IT space like the following.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -265,33 +285,18 @@ end{landscape}
 
 \end_layout
 
-\begin_layout Subsection*
-Disclaimer.
-\end_layout
-
-\begin_layout Standard
-This guide is the result of a career's worth of experience with transit
- data.
- In the process, the author has worked with data from dozens of transportation
- agencies, of varying sizes, both in the USA and internationally.
- The information within should not be considered the result of experience
- with any one particular entity, and where not cited, the opinions expressed
- are of the primary author alone and not of any other individual, company,
- agency, government, or interstellar federation.
- 
-\end_layout
-
 \begin_layout Chapter
 A PACT for Good Data
 \end_layout
 
 \begin_layout Standard
-This chapter presents fout crucial concepts that underlie the information
+This chapter presents four crucial concepts that underlie the information
  presented later in this guide, and that are important in describing the
  qualities of a system's data.
- These are Precision, Accuracy, Concurrency, and Transparency, or PACT.
- The exmples presented use an ubiquitous dataset in every transit data project,
- a dataset of stops.
+ These are Precision, Accuracy, Concurrency, and Transparency, or in manager
+ speak, PACT.
+ The exmples presented use an ubiquitous dataset in almost every transit
+ data project, a dataset of stops.
 \end_layout
 
 \begin_layout Section*
@@ -446,6 +451,10 @@ A dataset can be accurate but not precise, precise but not accurate, neither,
  time if it is not updated.
  Streets are paved and closed, businesses open and close, and in some areas
  new neighborhoods are constructed quickly.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
@@ -472,9 +481,10 @@ Yes, systems have the opportunity to not be concurrent with themselves.
  where one area may be ready for production while the rest of the network
  is being worked on.
  For example, Routes 1 and 2 pass by the stop at 1st and Main St.
- Route 1 is ready at an earlier date than Route 2.
- When Route 2 is scheduled, the scheduler notices that there will be long
- term construction at 1st and Main St and buses cannot stop there.
+ Route 1 is scheduled at an earlier date than Route 2.
+ When Route 2 is scheduled, the scheduler has been notified that there will
+ be long term construction at 1st and Main St and buses cannot stop there;
+ she then removes the stop in a manner that affects Route 2 only.
  When data is export from the scheduling system, Route 1 will still be recorded
  as stopping at 1st and Main, even though the network has been changed.
 \end_layout
@@ -524,14 +534,14 @@ If an operator can enter data that is invalid or non-sensical, then the
 
 \end_deeper
 \begin_layout Itemize
-Long update intervals
+Long update or synchronization intervals
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
 For a bus system, a stop dataset that is updated every several years is
  likely to have errors.
- For rail systems, this is not as severe of an issue.
+ 
 \end_layout
 
 \end_deeper
@@ -539,6 +549,12 @@ For a bus system, a stop dataset that is updated every several years is
 No / limited versioning
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Datasets should clearly include the times they were updated.
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 A medium to large-size public transport operation may have an IT workflow
  of many stages, often covered by different departments or even different
@@ -568,12 +584,12 @@ Poor and/or obsolete documentation
 \begin_layout Itemize
 After implementation, some systems start off well-documented, but as time
  goes on and minor changes are made to both the data and the usage of that
- data, documentation is not always updated.
+ data, said documentation is not always updated.
  Well-intentioned users may extend the existing data structure beyond the
  original design by adding additional information that does not strictly
- conform to the specifications, and not amending documentation to indicate
- this.
- This information may or may not be passed down through word of mouth.
+ conform to original specifications.This information may or may not be passed
+ down through word of mouth, and is often internalized to the point that
+ when asked, the data owners suddenly recall the difference.
 \end_layout
 
 \begin_layout Itemize
@@ -592,9 +608,19 @@ Special cases
 IT groups may tailor the same application for different users performing
  the same task within the same organization, often based upon varying user
  preferences.
- For example, one operating division may prefer that their route numbers
- begin with a leading zero, while another may not.
- Beware this special case.
+ 
+\begin_inset Marginal
+status open
+
+\begin_layout Itemize
+One operating division may prefer that their route numbers begin with a
+ leading zero (e.g 01 vs 1), while another may not.
+ Beware special cases such as this one.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -606,9 +632,9 @@ Excessive room for interpretation and/or lack of usage conventions.
 \begin_layout Itemize
 If a data model allows for the same data can be stored in two places, it
  is often the case that different users see the data differently.
- For example, if a data model has fields for both STOP_ID (intented to be
- a normalized key) and STOP_CODE (intended to be a short, but human-readable
- descriptor) and users fail to understand this difference, users at may
+ For example, if a stop dataset model has fields for both STOP_ID (intented
+ to be a normalized key) and STOP_CODE (intended to be a short, but human-readab
+le descriptor) and users fail to understand this difference, users at may
  choose to populate these fields in ways that are not consistent across
  the dataset.
  A very basic example is presented in the margin.
@@ -735,7 +761,7 @@ STOP_CODE
 
 \end_deeper
 \begin_layout Itemize
-Undefined and/or complex key structure
+Ambiguous, Undefined and/or complex key structure
 \end_layout
 
 \begin_deeper
@@ -744,7 +770,8 @@ a 'Primary Key' uniquely defines the characteristics of each record in a
  dataset, and has to consist of characteristics that cannot be duplicated
  by any other row.
  If the key structure for a dataset is not clearly defined or not enforced,
- 
+ making the proper relations within the dataset is more difficult and concurrenc
+y may be affected.
 \end_layout
 
 \end_deeper
@@ -757,9 +784,50 @@ Data intended for human visual consumption.
 Data should be machine readable, not just human readable.
  If a system has previously been used with the sole aim of output for human
  interpretation, it is likely that in places data are conflated together
- or that the data does .
- Fixing this often means splitting out one or a few fields in to many, which
- can be combined programatically in a user interface.
+ or that the data does not accurately conform to its specification.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Specifications that do not agree with established practice common nomenclature
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Developers are notorious for not reading documentation.
+ If a format specification happens to borrow a term from the common nomenclature
+ and use that term either in a more loose or strict fashion, it is likely
+ that the generators of the format are using the field according to their
+ definition.
+ An example of this is provided in the margin.
+ 
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+A 
+\emph on
+Vehicle Block, 
+\emph default
+in common transit usage, is vehicle's schedule that begins and ends at a
+ depot.
+ GTFS provides optional block_id support, specifically for when 
+\begin_inset Quotes eld
+\end_inset
+
+a passenger can transfer from one trip to the next just by staying in the
+ vehicle.
+\begin_inset Quotes erd
+\end_inset
+
+ It is not uncommon that GTFS feeds use the common definition, rather than
+ conform strictly to the GTFS specification.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -803,53 +871,19 @@ On Board Announcements
 Real-Time Trip Planning
 \end_layout
 
-\begin_layout Section*
-The one thing that's never in the contract.
-\end_layout
-
-\begin_layout Standard
-The people who develop transit data are human.
- They often will not have the same stated priorities as you do.
- For many of them, the work they have done, sometimes for decades, has been
- either met or exceeded their needs.
- Engaging in a project with greater requirements for precision, accuracy,
- and concurrency will require the help of those who develop that data; outsiders
- coming in and requesting changes to longstanding business practices are
- often met with resistance.
- In this case, it is helpful to identify your contacts-- both middle-management
- and rank-and-file.
- Do not hesitate to reach out to them, explain the goals of the project
- and open a regular dialog, before there is any trouble.
- This pays off when you come asking for changes; most projects require improveme
-nts in either precision, accuracy, or concurrency.
-\end_layout
-
-\begin_layout Section*
-What can you offer someone who's working with you?
-\end_layout
-
-\begin_layout Standard
-Scheduling is a data-driven business.
- An ITS project can collect a lot of data: running times, operational metrics,
- trip-planner queries, passenger counts, origin-destination matricies, dwell-tim
-e information, stop locations, etc.
- Brush up on what you can provide (within reason) and bring that to the
- table.
- 
-\end_layout
-
 \begin_layout Section
 Changes: when and why.
 \end_layout
 
 \begin_layout Standard
-Given the complex nature of many transit systems, the question is not if
- data will need changing, but when and how.
+Given the complex nature of many transit systems and the differing requirements
+ for PACT based on the type of project, the question is not if data will
+ need changing, but when and how.
  When implementing a complex system using data from another party, it is
  often easier for all parties when the data producers and users agree on
  a policy on what data should be updated and at what moment.
  One framework that may be useful in quantifying the value of updates to
- data is to define changes in service over three dimensions: 
+ data is to define impacts from service changes over three dimensions: 
 \end_layout
 
 \begin_layout Itemize
@@ -866,8 +900,223 @@ Given the complex nature of many transit systems, the question is not if
 \end_layout
 
 \begin_layout Standard
-By setting a bar for making changes according to these characteristics,
- downstream users ca
+The data owners should define the relevant impact classifications (short
+ versus long duration, small versus large area, etc), and the proper policy
+ will be specific to the organization's needs.
+ One of many possible strategies is outlined below.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Temporal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Spatial
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Human
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Policy
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Very Short
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Small
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Small
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Do nothing.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Very Short
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Large
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Large
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create a 
+\begin_inset Quotes eld
+\end_inset
+
+Service Alert.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Long
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Small
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Small
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Update data with next scheduled update.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Long
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Large
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Large
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Update schedule data ASAP.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter*
