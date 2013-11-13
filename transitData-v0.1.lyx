@@ -226,10 +226,11 @@ Established transportation agencies often have legacy IT infrastructure
  are not always able to apply regular upgrades to their systems when supporting
  ongoing operations is imperative.
  In this situation, IT systems that grow organically over a number of years
- tend to have, for better or worse, a lot of seemingly meaningless complexity.
+ tend to have, for better or worse, a lot of complexity, often seemingly
+ meaningless to the outsider.
  Furthermore, organizations that have built out their own infrastructure
- prior to the availability of open standards and turn-key solutions often
- find integrating a new system a challenge.
+ prior to the availability of open standards and turn-key standards-based
+ solutions often find integrating a new system a challenge.
  New ITS projects may require more tight coupling than existing practice.
  Take, for example, a scheduling system with inaccurate stops, which then
  feeds into an automated announcement system.
@@ -239,7 +240,7 @@ Established transportation agencies often have legacy IT infrastructure
 
 \begin_layout Standard
 A typical transit organization that oversees the operation of several hundred
- or more buses might have an IT space like the following.
+ or more vehicles might have an IT space like the following.
  
 \end_layout
 
@@ -353,7 +354,8 @@ A stop is at Main and 1st Street, Northbound, NE corner, with coordinates
 \end_layout
 
 \begin_layout Standard
-Two terms are often used to describe the quality of a dataset--- 
+Statisticians and Geospatial scientists use two terms primarily to describe
+ the quality of a dataset--- 
 \emph on
 accuracy
 \emph default
@@ -417,8 +419,16 @@ Master database update frequency
 
 \begin_deeper
 \begin_layout Itemize
-i.e.
- when does the notification get entered into the central system
+e.g.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Stop changes are entered into the database within 1 week.
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -428,8 +438,12 @@ Frequency of exports and releases
 
 \begin_deeper
 \begin_layout Itemize
-i.e.
- at what interval is GTFS generated from the master database
+e.g.
+ 'GTFS is generated at least every 4 months.
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -443,9 +457,9 @@ A dataset can be accurate but not precise, precise but not accurate, neither,
  or both.
  Some organizations conduct expensive, highly detailed stop surveys which
  are both precise and accurate at the time of their creation.
- It is not uncommon for this survey to be considered part of a capital project,
- and upon completion the dataset's owners often 'wipe their hands,' believing
- that the work is done.
+ It is not uncommon for the very first survey to be considered only as part
+ of a capital project, and the organization in question believes that the
+ work is done.
  This, however, is often a folly.
  Due to changes on the ground, accuracy of a stop dataset degrades over
  time if it is not updated.
@@ -481,7 +495,7 @@ Yes, systems have the opportunity to not be concurrent with themselves.
  where one area may be ready for production while the rest of the network
  is being worked on.
  For example, Routes 1 and 2 pass by the stop at 1st and Main St.
- Route 1 is scheduled at an earlier date than Route 2.
+ Route 1 has its schedule generated at an earlier date than Route 2.
  When Route 2 is scheduled, the scheduler has been notified that there will
  be long term construction at 1st and Main St and buses cannot stop there;
  she then removes the stop in a manner that affects Route 2 only.
@@ -515,15 +529,14 @@ The Enemies of Concurrency
 \end_layout
 
 \begin_layout Standard
-It is often said that a system is only as good as its weakest component.
- While it is difficult to quantify concurrency, it is possible to suggest
+While it is difficult to quantify concurrency, it is possible to suggest
  characteristics of 'weaker' data sources that should be validated before
- use.
+ relying upon them.
  Some of these are:
 \end_layout
 
 \begin_layout Itemize
-Possibility of Unsanitized / Unvalidated data entry
+Possibility of unsanitized / unvalidated data entry
 \end_layout
 
 \begin_deeper
@@ -539,8 +552,30 @@ Long update or synchronization intervals
 
 \begin_deeper
 \begin_layout Itemize
-For a bus system, a stop dataset that is updated every several years is
- likely to have errors.
+A stop dataset that is updated every several years is likely to have errors.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Static includes
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Systems may rely on one particular file as an input not coming from the
+ same repository as other pieces of information.
+ This may be either as an export from an otherwise unconnected system, or
+ a hand-updated file.
+ If policies for updating the file in question are not established, the
+ two datasets may fall out of concurrency.
  
 \end_layout
 
@@ -551,7 +586,9 @@ No / limited versioning
 
 \begin_deeper
 \begin_layout Itemize
-Datasets should clearly include the times they were updated.
+Datasets should clearly include the times they were updated, and update
+ frequencies should be established, so that it is understood what data belongs
+ to another dataset.
 \end_layout
 
 \end_deeper
@@ -570,10 +607,13 @@ Transparancy
 \begin_layout Standard
 Hopefully, when working with data from an existing system, there is documentatio
 n on what that data means.
- Often, however, when the data has only been used for one purpose or within
- one organization, the documentation is not complete.
- Transparency refers to the degree to which the data conforms to the documentati
-on provided.
+ Often, however, when the data has only been used for only one purpose or
+ within one organization or department, the documentation is not complete.
+ 
+\emph on
+Transparency
+\emph default
+ refers to the degree to which the data conforms to the documentation provided.
 \end_layout
 
 \begin_layout Itemize
@@ -584,7 +624,8 @@ Poor and/or obsolete documentation
 \begin_layout Itemize
 After implementation, some systems start off well-documented, but as time
  goes on and minor changes are made to both the data and the usage of that
- data, said documentation is not always updated.
+ data.
+ Documentation is not always updated in accordance.
  Well-intentioned users may extend the existing data structure beyond the
  original design by adding additional information that does not strictly
  conform to original specifications.This information may or may not be passed
@@ -781,16 +822,52 @@ Data intended for human visual consumption.
 
 \begin_deeper
 \begin_layout Itemize
-Data should be machine readable, not just human readable.
- If a system has previously been used with the sole aim of output for human
- interpretation, it is likely that in places data are conflated together
- or that the data does not accurately conform to its specification.
+Input data should be machine readable, not just human readable.
+ If a system has previously been used as the final point in a data flow
+ with the sole aim of output for human interpretation, it is likely that
+ in places data does not accurately conform to its specification.
  
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
-Specifications that do not agree with established practice common nomenclature
+Unclear methods of interpolation.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+When data from one system is interpolated by a 
+\begin_inset Quotes eld
+\end_inset
+
+black box
+\begin_inset Quotes erd
+\end_inset
+
+ process, the results may often not be unclear.
+ 
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+A common case of this problem is the interpolation of stop times from AVL
+ systems.
+ There are several methods for determining the time when a bus passed by
+ a particular stop.
+ If a system only presents one time, was it the arrival or the departure
+ time? Was there any interpolation involved in calculating the time, or
+ is it simply the nearest position to the stop in question?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Specifications that do not agree with established practice or common nomenclatur
+e
 \end_layout
 
 \begin_deeper
@@ -800,7 +877,6 @@ Developers are notorious for not reading documentation.
  and use that term either in a more loose or strict fashion, it is likely
  that the generators of the format are using the field according to their
  definition.
- An example of this is provided in the margin.
  
 \begin_inset Marginal
 status open
@@ -810,9 +886,9 @@ A
 \emph on
 Vehicle Block, 
 \emph default
-in common transit usage, is vehicle's schedule that begins and ends at a
- depot.
- GTFS provides optional block_id support, specifically for when 
+in common transit agency usage, is vehicle's schedule that begins and ends
+ at a depot.
+ GTFS provides optional block_id information, specifically for when 
 \begin_inset Quotes eld
 \end_inset
 
@@ -836,39 +912,58 @@ Requirements for data based on project type
 \end_layout
 
 \begin_layout Standard
-In growing order of precision, accuracy, and concurrency:
+As ITS infrastructure evolves and additional systems are added to an organizatio
+n's ITS portfolio, the need for additional precision, accuracy, and concurrency
+ in the core data increases.
+ While seemingly relevant data may exist, it is important to take into considera
+tion the PACT of the data given it's previous uses.
 \end_layout
 
 \begin_layout Standard
-Scheduling
+Scheduling: Early scheduling systems took into account only terminals and
+ timepoints, using a simple schematic network between them.
+ Geography or intermediate stops were not taken into account.
 \end_layout
 
 \begin_layout Standard
-Detailed Scheduling
+Detailed Scheduling: Modern scheduling systems include geographic information
+ for paths and stops and has the ability to generate passing times for each
+ stop, which feed external sources such as GTFS.
 \end_layout
 
 \begin_layout Standard
-CAD/AVL
+Computer Aided Dispatching: In order to dispatch effectively, locations
+ of terminals and timepoints must be correct.
+ If a timepoint is inaccurate in that it is on the wrong side of the intersectio
+n or block, the CAD system will produce incorrect results in that vicinity.
 \end_layout
 
 \begin_layout Standard
-Static Trip Planning
+Static Trip Planning: Passengers need to know where to board and alight
+ the bus.
 \end_layout
 
 \begin_layout Standard
-Real-Time Customer Information
+Real-Time Passenger Information: The location of every stop must be within
+ reason, and every revenue trip must be accounted for.
 \end_layout
 
 \begin_layout Standard
-Reporting
+Reporting and Analysis: Reporting on the work that goes on behind-the-scenes
+ requires the behind-the-scenes data (e.g.
+ information runs and blocks) to be correct, above and beyond the passenger
+ information use case.
 \end_layout
 
 \begin_layout Standard
-On Board Announcements
+On Board Announcements: Announcements made too late because of incorrect
+ stop locations or for stops that do not exist render the system useless.
 \end_layout
 
 \begin_layout Standard
-Real-Time Trip Planning
+Real-Time Trip Planning: Planning trips in real time, sometimes hours in
+ advance, requires the greatest level of PACT from all of the above-- systems
+ must concur for real-time information in the future to be valid.
 \end_layout
 
 \begin_layout Section
@@ -879,9 +974,9 @@ Changes: when and why.
 Given the complex nature of many transit systems and the differing requirements
  for PACT based on the type of project, the question is not if data will
  need changing, but when and how.
- When implementing a complex system using data from another party, it is
- often easier for all parties when the data producers and users agree on
- a policy on what data should be updated and at what moment.
+ When implementing a complex system depending on data from another party,
+ it is often easier for all parties when the data producers and users agree
+ on a policy on what data should be updated and at what moment.
  One framework that may be useful in quantifying the value of updates to
  data is to define impacts from service changes over three dimensions: 
 \end_layout
@@ -900,7 +995,9 @@ Given the complex nature of many transit systems and the differing requirements
 \end_layout
 
 \begin_layout Standard
-The data owners should define the relevant impact classifications (short
+As with the proper level of PACT, there is no universal policy for data
+ changes, and one should be developed on a project by project basis.
+ The data owners should define the relevant impact classifications (short
  versus long duration, small versus large area, etc), and the proper policy
  will be specific to the organization's needs.
  One of many possible strategies is outlined below.
@@ -1117,114 +1214,6 @@ Update schedule data ASAP.
 \end_inset
 
 
-\end_layout
-
-\begin_layout Chapter*
-The 
-\begin_inset Quotes eld
-\end_inset
-
-Common
-\begin_inset Quotes erd
-\end_inset
-
- scheduling model.
-\end_layout
-
-\begin_layout Standard
-As the GTFS model does not always match the common scheduling model, some
- sections below contain additional information.
- 
-\end_layout
-
-\begin_layout Standard
-A trip is a movement from origin to destination, where origin or destination
- may be a garage or terminal.
- Trips may either be revenue (in service) or non-revenue (e.g.
- 'pullout' from depot, 'pullin' to depot, deadhead between locations or
- 'layover' at one location).
-\end_layout
-
-\begin_layout Standard
-Related although not covered explicitly in the GTFS model are trip Patterns
- (also called variants): a specific series of stops and routing that can
- be repeated one or many times within a schedule.
- GTFS can handle trip patterns by specifying a base trip and making an entry
- in the frequencies.txt file.
-\end_layout
-
-\begin_layout Standard
-Block: set of bus movements that begin at a depot (the first movement being
- a “pullout”) and end at a depot (the last movement being a “pullin”).
- A block consists of a series of complete revenue and non-revenue trips.
- One vehicle can serve multiple blocks in a day.
- GTFS provides optional block_id support in the trips.txt file, specifically
- for when 
-\begin_inset Quotes eld
-\end_inset
-
-a passenger can transfer from one trip to the next just by staying in the
- vehicle.
-\begin_inset Quotes erd
-\end_inset
-
- It is common that the strict GTFS definition is not actually followed by
- processes that generate GTFS.
- Block identifiers are highly useful when joining data from two different
- sources.
- 
-\end_layout
-
-\begin_layout Standard
-Run: an operator’s daily work assignment, which covers a series of partial
- or complete trips.
- One or more runs can work a single block.
- Runs can also work on multiple vehicles/blocks.
- GTFS, in its purest form, does not model blocks; understanding the limits
- in a vehicle operator's scheduled work, however, may uncover errors that
- present themselves in transit data.
-\end_layout
-
-\begin_layout Standard
-The difference between runs, blocks and trips, is illustrated in the diagram
- below: Figure 3: Example Run/Trip/Block Time-Space Diagram
-\end_layout
-
-\begin_layout Subsection
-Calendar.txt
-\end_layout
-
-\begin_layout Standard
-Service Date: a given trip, block, or run of transit service may span multiple
- calendar days.
- However, each of these is associated with a particular “service date” defining
- the calendar data used for record-keeping of that unit of service.
- For example, a run might span from 11:00pm on a Saturday until 5:00am Sunday.
- In this case, the run, and all trips on that run, will be typically associated
- with the service date equal to the date on which most of the service occurred,
- even if they actually occur on the date prior.
-\end_layout
-
-\begin_layout Standard
-Service ID / Service Class: an abstraction for specifying the set of trips
- that will run on a certain type of day (e.g.
- Weekday, Saturday, Holiday).
- One Service Date will have one Service Class.
- GTFS models these in the calendar.txt and calendar_dates.txt files.
-\end_layout
-
-\begin_layout Subsection
-Shapes.txt
-\end_layout
-
-\begin_layout Standard
-Shapes or Paths are often generated by performing a network analysis, tracing
- a route along a defined street or track network.
- Depending on the system, a data provider may use an existing off-the-shelf
- dataset as a base, modify said dataset, or have their own network.
- There are many problems that can arise when the underlying dataset is not
- accurate; see later in this document for further examples.
- 
 \end_layout
 
 \begin_layout Chapter*
