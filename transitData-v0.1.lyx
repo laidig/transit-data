@@ -5,6 +5,7 @@
 \textclass tufte-book
 \begin_preamble
  \usepackage{pdflscape}
+\setlength\marginparpush{20pt}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -64,7 +65,7 @@
 \begin_body
 
 \begin_layout Title
-Transit Data Issues- A Primer
+Quantitative Concepts For 'Good' Transit Schedule Data
 \end_layout
 
 \begin_layout Author
@@ -72,7 +73,7 @@ Tony Laidig
 \end_layout
 
 \begin_layout Date
-September, 2013
+December, 2013
 \end_layout
 
 \begin_layout Address
@@ -89,6 +90,11 @@ This guide is the result of a career's worth of experience with transit
  are of the primary author alone and not of any other individual, company,
  agency, government, or interstellar federation.
  
+\end_layout
+
+\begin_layout Address
+This work by Tony Laidig is licensed under a Creative Commons Attribution-NonCom
+mercial-ShareAlike 4.0 International License.
 \end_layout
 
 \begin_layout Chapter
@@ -108,19 +114,29 @@ The last decade has seen an explosion in the availability of data, and public
  GTFS brings transit schedule data into a modern, open, and easily-consumable
  world by presenting a simplified de-facto standard that many developers
  can use without the knowing the intricacies of transit operations.
- Since that time, the number of 'outsiders' working with transit datasets
- has grown tremendously, and a number of applications using this data have
- been produced.
+ Since that time, the number of publicly available feeds has grown exponentially
+, as has the number of 'outsiders
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+'Outsiders' may refer to those within an organization acting as internal
+ clients.
+\end_layout
+
+\end_inset
+
+' working with transit datasets has grown tremendously, and a number of
+ applications using this data have been produced.
  
 \end_layout
 
 \begin_layout Standard
-The purpose of this guide is intended to explain some of the intricacies
- in the process of transit schedule creation and to provide a statring point
- for a dialog between the parties involved through practical qualitative
- concepts.
- Its audience is intended to be developers who work with transit schedule
- data, and also those who generate the data in question.
+This document is intended to provide a statring point for a dialog between
+ the parties involved in transit data creation and usage through practical
+ qualitative concepts.
+ Unlike many practical guides, it is intended to be useful at any stage
+ of project development, even, and especially at the design stage.
  It is not intended to supplant the existing official GTFS documentation
 \begin_inset Foot
 status collapsed
@@ -134,7 +150,7 @@ https://developers.google.com/transit/gtfs/reference
 , provide anything more than a brief introduction to scheduling practice,
  or be a survey of the practice in ITS systems implementation and engineering
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 There are better sources on that, such as http://www.fta.dot.gov/documents/2010Tran
@@ -144,13 +160,7 @@ sitITSArchRvw_-_08.29.2011.pdf
 \end_inset
 
 .
- This guide is written from the viewpoint of established, 'formalized,'
- transportation networks, run with a high degree of government oversight
- and/or operation.
- There is an ongoing effort to extend GTFS to more 'informal' environments;
- while parts of this guide may be useful in these cases, it can certainly
- use extension to cover additional situations that are uncommon in formalized
- networks.
+ 
 \end_layout
 
 \begin_layout Section
@@ -201,46 +211,46 @@ To transit agencies, scheduling puts reliable service on the street where
 \noindent
 To general managers and chief financial officers, scheduling has major impacts
  on the quality and cost of operations...
- Scheduling is the brain of the transit organism in its day-to-day functioning.
- By its nature, scheduling has the clearest understanding of how and where
- cost efficiencies can be achieved in daily operations.
+ Scheduling is the brain of the transit organism...
 \end_layout
 
 \begin_layout Standard
 For these four groups, the degree to which the schedule actually models
  reality plays a large part in its usefulness.
- The qualitative concepts discussed in Chapter 2 are intended to improve
- the final result of this model in grading the degree to which it represents
- reality.
+ The concepts discussed in Chapter 2 are intended to improve the final result
+ of this model's representation of reality.
 \end_layout
 
 \begin_layout Subsection
 A whirlwind introduction to Transit IT
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+A more thorough introduction can be found in Catala (2011).
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 Established transportation agencies often have legacy IT infrastructure
  in regular use.
- While buzzwords such as SOA, XML, REST, etc.
- may be known to their staff, organizations, especially in the public sector,
- are not always able to apply regular upgrades to their systems when supporting
- ongoing operations is imperative.
- In this situation, IT systems that grow organically over a number of years
- tend to have, for better or worse, a lot of complexity, often seemingly
- meaningless to the outsider.
+ These systems have grown piecemeal organically over a number of years,
+ and tend to have a lot of complexity-- often seemingly meaningless to the
+ outsider.
  Furthermore, organizations that have built out their own infrastructure
  prior to the availability of open standards and turn-key standards-based
  solutions often find integrating a new system a challenge.
- New ITS projects may require more tight coupling than existing practice.
- Take, for example, a scheduling system with inaccurate stops, which then
- feeds into an automated announcement system.
- With incorrect data, announcements may be made at the incorrect location,
- or for stops that are not scheduled.
+ 
 \end_layout
 
 \begin_layout Standard
-A typical transit organization that oversees the operation of several hundred
- or more vehicles might have an IT space like the following.
+In order to understand the path that a dataset might originate from, the
+ diagram below illustrates a theoretical IT space in atransit organization
+ that oversees the operation of several hundred or more vehicles.
  
 \end_layout
 
@@ -286,22 +296,34 @@ end{landscape}
 
 \end_layout
 
+\begin_layout Standard
+The final product is the result of several different systems.
+ 
+\end_layout
+
 \begin_layout Chapter
 A PACT for Good Data
 \end_layout
 
 \begin_layout Standard
-This chapter presents four crucial concepts that underlie the information
- presented later in this guide, and that are important in describing the
- qualities of a system's data.
- These are Precision, Accuracy, Concurrency, and Transparency, or in manager
+At many agencies, data on schedules already exists, and new projects are
+ often thought up believing that existing data will work without major rework.
+ Sadly, is often not the case.
+ This chapter presents four crucial qualitatitive concepts that are important
+ in describing the qualities of a system's data.
+ These are Precision, Accuracy, Concurrency, and Transparency, or, in manager
  speak, PACT.
+ By reviewing the quality of the datasets involved according to these four
+ concepts, project teams can address possible concerns before beginning
+ development, with the aim of reducing errors during the implementation
+ stage.
+ The quantification of these concepts is not addressed.
  The exmples presented use an ubiquitous dataset in almost every transit
  data project, a dataset of stops.
 \end_layout
 
 \begin_layout Section*
-Accuracy and Precision
+Precision and Accuracy
 \end_layout
 
 \begin_layout Standard
@@ -456,7 +478,8 @@ e.g.
 A dataset can be accurate but not precise, precise but not accurate, neither,
  or both.
  Some organizations conduct expensive, highly detailed stop surveys which
- are both precise and accurate at the time of their creation.
+ are both precise and accurate at the time of their creation, but these
+ lose accuracy over time.
  It is not uncommon for the very first survey to be considered only as part
  of a capital project, and the organization in question believes that the
  work is done.
@@ -464,7 +487,7 @@ A dataset can be accurate but not precise, precise but not accurate, neither,
  Due to changes on the ground, accuracy of a stop dataset degrades over
  time if it is not updated.
  Streets are paved and closed, businesses open and close, and in some areas
- new neighborhoods are constructed quickly.
+ entire neighborhoods appear overnight.
 \begin_inset Newpage pagebreak
 \end_inset
 
@@ -484,21 +507,24 @@ While precision and accuracy are important when considering a project that
 concurrency
 \emph default
  of that data.
- Concurrency, in this case, refers to the ability to join together, reliably,
- the data from one or many systems
+ Concurrency, in this case, refers to the ability to join together, 
+\emph on
+reliably
+\emph default
+, the data from one or many systems
 \begin_inset Foot
 status open
 
 \begin_layout Plain Layout
-Yes, systems have the opportunity to not be concurrent with themselves.
- Oftentimes, large transit operations use their scheduling systems in phases,
- where one area may be ready for production while the rest of the network
- is being worked on.
- For example, Routes 1 and 2 pass by the stop at 1st and Main St.
- Route 1 has its schedule generated at an earlier date than Route 2.
+Systems may not even be concurrent with themselves.
+ Consider a large organization that builds their schedule in phases; one
+ area may be ready for production while the rest of the network is being
+ worked on.
+ For example, Routes 1 and 2 stop at 1st and Main St.
+ Route 1 has its schedule generated before Route 2, and it is 'locked up.'
  When Route 2 is scheduled, the scheduler has been notified that there will
- be long term construction at 1st and Main St and buses cannot stop there;
- she then removes the stop in a manner that affects Route 2 only.
+ be long term construction at 1st and Main, and buses cannot stop there;
+ she then removes the stop in the database for Route 2 only.
  When data is export from the scheduling system, Route 1 will still be recorded
  as stopping at 1st and Main, even though the network has been changed.
 \end_layout
@@ -513,8 +539,13 @@ Yes, systems have the opportunity to not be concurrent with themselves.
 status open
 
 \begin_layout Plain Layout
-Inspired by Wikipedia entry on concurrency https://en.wikipedia.org/wiki/Concurren
-cy_%28computer_science%29
+\begin_inset CommandInset citation
+LatexCommand cite
+key "2013concurrency"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -543,6 +574,7 @@ Possibility of unsanitized / unvalidated data entry
 \begin_layout Itemize
 If an operator can enter data that is invalid or non-sensical, then the
  system that uses it must take this possibility into account.
+ Policies may need to be put in place to ensure correct entry.
 \end_layout
 
 \end_deeper
@@ -552,7 +584,8 @@ Long update or synchronization intervals
 
 \begin_deeper
 \begin_layout Itemize
-A stop dataset that is updated every several years is likely to have errors.
+A dataset that models activity on the ground (e.g.
+ bus stops) that is only updated every several years is likely to have errors.
  
 \end_layout
 
@@ -575,7 +608,7 @@ Systems may rely on one particular file as an input not coming from the
  This may be either as an export from an otherwise unconnected system, or
  a hand-updated file.
  If policies for updating the file in question are not established, the
- two datasets may fall out of concurrency.
+ two datasets may lose concurrency.
  
 \end_layout
 
@@ -595,7 +628,7 @@ Datasets should clearly include the times they were updated, and update
 \begin_layout Standard
 A medium to large-size public transport operation may have an IT workflow
  of many stages, often covered by different departments or even different
- agencies, public and private.
+ organizations or agencies, public and private.
  The less that the systems involved are concurrent, the more difficult building
  a new system upon those projects will be.
 \end_layout
@@ -608,7 +641,7 @@ Transparancy
 Hopefully, when working with data from an existing system, there is documentatio
 n on what that data means.
  Often, however, when the data has only been used for only one purpose or
- within one organization or department, the documentation is not complete.
+ within one organization or department, documentation is not complete.
  
 \emph on
 Transparency
@@ -634,9 +667,10 @@ After implementation, some systems start off well-documented, but as time
 \end_layout
 
 \begin_layout Itemize
-Agencies often take advantage of 'turnkey' systems that include an openly-access
-ible database component often add additional functionality 'around the edges.'
- It is the author's experience that these additions are rarely documented.
+Organizations often take advantage of 'turn-key' systems that include an
+ openly-accessible database component often add additional functionality
+ 'around the edges.' It is the author's experience that these additions are
+ rarely documented.
 \end_layout
 
 \end_deeper
@@ -808,8 +842,7 @@ Ambiguous, Undefined and/or complex key structure
 \begin_deeper
 \begin_layout Itemize
 a 'Primary Key' uniquely defines the characteristics of each record in a
- dataset, and has to consist of characteristics that cannot be duplicated
- by any other row.
+ dataset, and has to consist of characteristics that are unique.
  If the key structure for a dataset is not clearly defined or not enforced,
  making the proper relations within the dataset is more difficult and concurrenc
 y may be affected.
@@ -826,6 +859,8 @@ Input data should be machine readable, not just human readable.
  If a system has previously been used as the final point in a data flow
  with the sole aim of output for human interpretation, it is likely that
  in places data does not accurately conform to its specification.
+ This, when combined with unvalidated entries, can be especially confusing
+ during implementation.
  
 \end_layout
 
@@ -844,7 +879,7 @@ black box
 \begin_inset Quotes erd
 \end_inset
 
- process, the results may often not be unclear.
+ process, the results are often unclear.
  
 \begin_inset Marginal
 status open
@@ -856,7 +891,7 @@ A common case of this problem is the interpolation of stop times from AVL
  a particular stop.
  If a system only presents one time, was it the arrival or the departure
  time? Was there any interpolation involved in calculating the time, or
- is it simply the nearest position to the stop in question?
+ is it simply the time of the position nearest to the stop in question?
 \end_layout
 
 \end_inset
@@ -886,8 +921,8 @@ A
 \emph on
 Vehicle Block, 
 \emph default
-in common transit agency usage, is vehicle's schedule that begins and ends
- at a depot.
+in common transit usage, is vehicle's schedule that begins and ends at a
+ depot.
  GTFS provides optional block_id information, specifically for when 
 \begin_inset Quotes eld
 \end_inset
@@ -912,11 +947,13 @@ Requirements for data based on project type
 \end_layout
 
 \begin_layout Standard
-As ITS infrastructure evolves and additional systems are added to an organizatio
-n's ITS portfolio, the need for additional precision, accuracy, and concurrency
- in the core data increases.
- While seemingly relevant data may exist, it is important to take into considera
-tion the PACT of the data given it's previous uses.
+As ITS infrastructure evolves and as additional systems or functionality
+ are added to an organization's portfolio, the need for additional precision,
+ accuracy, and concurrency increases.
+ While data may exist, it is important to take into consideration the data's
+ PACT given it's previous uses.
+ Maintaining confidence in the system Most large transit organizations have
+ had a rough progression in systems along the lines of the following.
 \end_layout
 
 \begin_layout Standard
@@ -928,14 +965,14 @@ Scheduling: Early scheduling systems took into account only terminals and
 \begin_layout Standard
 Detailed Scheduling: Modern scheduling systems include geographic information
  for paths and stops and has the ability to generate passing times for each
- stop, which feed external sources such as GTFS.
+ stop, which allows for detailed GTFS creation.
 \end_layout
 
 \begin_layout Standard
 Computer Aided Dispatching: In order to dispatch effectively, locations
- of terminals and timepoints must be correct.
- If a timepoint is inaccurate in that it is on the wrong side of the intersectio
-n or block, the CAD system will produce incorrect results in that vicinity.
+ of terminals and timepoints must be accurate.
+ If a timepoint is on the wrong side of the intersection or block, the CAD
+ system will produce incorrect results in that vicinity.
 \end_layout
 
 \begin_layout Standard
@@ -951,8 +988,8 @@ Real-Time Passenger Information: The location of every stop must be within
 \begin_layout Standard
 Reporting and Analysis: Reporting on the work that goes on behind-the-scenes
  requires the behind-the-scenes data (e.g.
- information runs and blocks) to be correct, above and beyond the passenger
- information use case.
+ runs and blocks) to be correct, above and beyond the passenger information
+ use case.
 \end_layout
 
 \begin_layout Standard
@@ -967,16 +1004,16 @@ Real-Time Trip Planning: Planning trips in real time, sometimes hours in
 \end_layout
 
 \begin_layout Section
-Changes: when and why.
+Changes: They are a'comin.
 \end_layout
 
 \begin_layout Standard
 Given the complex nature of many transit systems and the differing requirements
  for PACT based on the type of project, the question is not if data will
  need changing, but when and how.
- When implementing a complex system depending on data from another party,
- it is often easier for all parties when the data producers and users agree
- on a policy on what data should be updated and at what moment.
+ When implementing a complex system depending touching party, it is often
+ easier for all parties when the data producers and users agree on a policy
+ on what data should be updated and at what moment.
  One framework that may be useful in quantifying the value of updates to
  data is to define impacts from service changes over three dimensions: 
 \end_layout
@@ -1214,98 +1251,6 @@ Update schedule data ASAP.
 \end_inset
 
 
-\end_layout
-
-\begin_layout Chapter*
-The GTFS Model and Issues That May Arise
-\end_layout
-
-\begin_layout Section*
-Shapes.txt 
-\end_layout
-
-\begin_layout Standard
-Incomplete networks.
- Bad topology.
- Physically impossible routings
-\end_layout
-
-\begin_layout Standard
--- missing sections
-\end_layout
-
-\begin_layout Section*
-Stops.txt
-\end_layout
-
-\begin_layout Subsection*
-Like in Real Estate
-\end_layout
-
-\begin_layout Standard
-It is often said that the only thing that matters in real estate is 
-\begin_inset Quotes eld
-\end_inset
-
-Location, Location, Location.
-\begin_inset Quotes erd
-\end_inset
-
- This is also true for stop locations and names in transit data.
- Stops need to be accurate to a reasonable amount because:
-\end_layout
-
-\begin_layout Standard
-Terminals and Layovers
-\end_layout
-
-\begin_layout Standard
-Announcements
-\end_layout
-
-\begin_layout Standard
-Lining data up between agencies
-\end_layout
-
-\begin_layout Subsection*
-When is a stop not a stop?
-\end_layout
-
-\begin_layout Standard
-Often, automated scheduling software does not draw a shape correctly.
- In order to help the automated routing algorithm to make the correct route,
- schedulers often insert 'dummy stops,' where non-revenue stops are included
- in the system.
- Dummy stops may also be included to faciltate scheduling and road operations
- (e.g.
- 'this trip should pass First Ave and Main St at 5:00').
- As these are non-revenue stops, they should not make it into a trip planner
- or AVL system.
-\end_layout
-
-\begin_layout Standard
-Trips - Concurrency
-\end_layout
-
-\begin_layout Standard
-Awry: Physically impossible routings 
-\end_layout
-
-\begin_layout Standard
-Stops and Stop_times out of geo / temporal order 
-\end_layout
-
-\begin_layout Standard
-What happens around midnight 
-\end_layout
-
-\begin_layout Standard
-Layover / Terminal Locations 
-\end_layout
-
-\begin_layout Standard
-Missing data (e.g.
- shapes, trips) 
 \end_layout
 
 \end_body
