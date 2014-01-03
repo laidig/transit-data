@@ -221,86 +221,6 @@ For these four groups, the degree to which the schedule actually models
  of this model's representation of reality.
 \end_layout
 
-\begin_layout Subsection
-A whirlwind introduction to Transit IT
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-A more thorough introduction can be found in Catala (2011).
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Established transportation agencies often have legacy IT infrastructure
- in regular use.
- These systems have grown piecemeal organically over a number of years,
- and tend to have a lot of complexity-- often seemingly meaningless to the
- outsider.
- Furthermore, organizations that have built out their own infrastructure
- prior to the availability of open standards and turn-key standards-based
- solutions often find integrating a new system a challenge.
- 
-\end_layout
-
-\begin_layout Standard
-In order to understand the path that a dataset might originate from, the
- diagram below illustrates a theoretical IT space in atransit organization
- that oversees the operation of several hundred or more vehicles.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{landscape}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Graphics
-	filename Systems_Diagram.eps
-	width 8in
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{landscape}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The final product is the result of several different systems.
- 
-\end_layout
-
 \begin_layout Chapter
 A PACT for Good Data
 \end_layout
@@ -507,11 +427,8 @@ While precision and accuracy are important when considering a project that
 concurrency
 \emph default
  of that data.
- Concurrency, in this case, refers to the ability to join together, 
-\emph on
-reliably
-\emph default
-, the data from one or many systems
+ Concurrency, in this case, refers to the ability to join together, reliably,
+ the data from one or many systems
 \begin_inset Foot
 status open
 
@@ -521,10 +438,10 @@ Systems may not even be concurrent with themselves.
  area may be ready for production while the rest of the network is being
  worked on.
  For example, Routes 1 and 2 stop at 1st and Main St.
- Route 1 has its schedule generated before Route 2, and it is 'locked up.'
+ Route 1 has its schedule generated before Route 2.
  When Route 2 is scheduled, the scheduler has been notified that there will
- be long term construction at 1st and Main, and buses cannot stop there;
- she then removes the stop in the database for Route 2 only.
+ be long term construction at 1st and Main and buses cannot stop there;
+ she then removes the stop for Route 2 only.
  When data is export from the scheduling system, Route 1 will still be recorded
  as stopping at 1st and Main, even though the network has been changed.
 \end_layout
@@ -532,6 +449,11 @@ Systems may not even be concurrent with themselves.
 \end_inset
 
 .
+ A medium to large-size public transport operation may have an IT workflow
+ of many stages, covered by different departments or even different organization
+s or agencies, public and private.
+ The less that the systems involved are concurrent, the more difficult building
+ a new system upon those projects will be.
  The design of concurrent systems often entails finding reliable techniques
  for coordinating their execution, data exchange, and execution scheduling
  to minimize confusion and maximise utility
@@ -604,12 +526,11 @@ Static includes
 \begin_deeper
 \begin_layout Itemize
 Systems may rely on one particular file as an input not coming from the
- same repository as other pieces of information.
- This may be either as an export from an otherwise unconnected system, or
- a hand-updated file.
- If policies for updating the file in question are not established, the
- two datasets may lose concurrency.
- 
+ same repository as other souces; it may be either as an export from an
+ otherwise unconnected system, or a hand-updated file.
+ If policies for updating the file in question (e.g.
+ on a regular basis or simultaneously with other exports), the data in question
+ may fall out of concurrency.
 \end_layout
 
 \end_deeper
@@ -619,20 +540,11 @@ No / limited versioning
 
 \begin_deeper
 \begin_layout Itemize
-Datasets should clearly include the times they were updated, and update
- frequencies should be established, so that it is understood what data belongs
- to another dataset.
+Datasets should clearly include the times they were updated; thus, when
+ two datasets are joined they can be sufficiently linked.
 \end_layout
 
 \end_deeper
-\begin_layout Standard
-A medium to large-size public transport operation may have an IT workflow
- of many stages, often covered by different departments or even different
- organizations or agencies, public and private.
- The less that the systems involved are concurrent, the more difficult building
- a new system upon those projects will be.
-\end_layout
-
 \begin_layout Section
 Transparancy
 \end_layout

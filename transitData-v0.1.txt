@@ -1,8 +1,8 @@
-Transit Data Issues- A Primer
+Quantitative Concepts For 'Good' Transit Schedule Data
 
 Tony Laidig
 
-September, 2013
+December, 2013
 
 Disclaimer.
 
@@ -14,6 +14,9 @@ considered the result of experience with any one particular
 entity, and where not cited, the opinions expressed are of the 
 primary author alone and not of any other individual, company, 
 agency, government, or interstellar federation. 
+
+This work by Tony Laidig is licensed under a Creative Commons 
+Attribution-NonCommercial-ShareAlike 4.0 International License.
 
 Introduction
 
@@ -28,30 +31,27 @@ home-grown formats. GTFS brings transit schedule data into a
 modern, open, and easily-consumable world by presenting a 
 simplified de-facto standard that many developers can use without 
 the knowing the intricacies of transit operations. Since that 
-time, the number of 'outsiders' working with transit datasets has 
-grown tremendously, and a number of applications using this data 
-have been produced. 
+time, the number of publicly available feeds has grown 
+exponentially, as has the number of 'outsiders[margin:
+'Outsiders' may refer to those within an organization acting as 
+internal clients.
+]' working with transit datasets has grown tremendously, and a 
+number of applications using this data have been produced. 
 
-The purpose of this guide is intended to explain some of the 
-intricacies in the process of transit schedule creation and to 
-provide a statring point for a dialog between the parties 
-involved through practical qualitative concepts. Its audience is 
-intended to be developers who work with transit schedule data, 
-and also those who generate the data in question. It is not 
-intended to supplant the existing official GTFS documentation[footnote:
+This document is intended to provide a statring point for a 
+dialog between the parties involved in transit data creation and 
+usage through practical qualitative concepts. Unlike many 
+practical guides, it is intended to be useful at any stage of 
+project development, even, and especially at the design stage. It 
+is not intended to supplant the existing official GTFS 
+documentation[footnote:
 https://developers.google.com/transit/gtfs/reference
 ], provide anything more than a brief introduction to scheduling 
 practice, or be a survey of the practice in ITS systems 
 implementation and engineering[footnote:
 There are better sources on that, such as 
 http://www.fta.dot.gov/documents/2010TransitITSArchRvw_-_08.29.2011.pdf
-]. This guide is written from the viewpoint of established, 
-'formalized,' transportation networks, run with a high degree of 
-government oversight and/or operation. There is an ongoing effort 
-to extend GTFS to more 'informal' environments; while parts of 
-this guide may be useful in these cases, it can certainly use 
-extension to cover additional situations that are uncommon in 
-formalized networks.
+]. 
 
   Why Schedule?
 
@@ -85,56 +85,30 @@ defines four major groups that benefit from the existence of
 
 4. To general managers and chief financial officers, scheduling 
   has major impacts on the quality and cost of operations... 
-  Scheduling is the brain of the transit organism in its 
-  day-to-day functioning. By its nature, scheduling has the 
-  clearest understanding of how and where cost efficiencies can 
-  be achieved in daily operations.
+  Scheduling is the brain of the transit organism...
 
 For these four groups, the degree to which the schedule actually 
-models reality plays a large part in its usefulness. The 
-qualitative concepts discussed in Chapter 2 are intended to 
-improve the final result of this model in grading the degree to 
-which it represents reality.
-
-  A whirlwind introduction to Transit IT
-
-Established transportation agencies often have legacy IT 
-infrastructure in regular use. While buzzwords such as SOA, XML, 
-REST, etc. may be known to their staff, organizations, especially 
-in the public sector, are not always able to apply regular 
-upgrades to their systems when supporting ongoing operations is 
-imperative. In this situation, IT systems that grow organically 
-over a number of years tend to have, for better or worse, a lot 
-of seemingly meaningless complexity. Furthermore, organizations 
-that have built out their own infrastructure prior to the 
-availability of open standards and turn-key solutions often find 
-integrating a new system a challenge. New ITS projects may 
-require more tight coupling than existing practice. Take, for 
-example, a scheduling system with inaccurate stops, which then 
-feeds into an automated announcement system. With incorrect data, 
-announcements may be made at the incorrect location, or for stops 
-that are not scheduled.
-
-A typical transit organization that oversees the operation of 
-several hundred or more buses might have an IT space like the 
-following. 
-
-
-
-<Graphics file: C:/Users/Tony/Documents/transit-data/Systems_Diagram.eps>
-
-
+models reality plays a large part in its usefulness. The concepts 
+discussed in Chapter 2 are intended to improve the final result 
+of this model's representation of reality.
 
 A PACT for Good Data
 
-This chapter presents four crucial concepts that underlie the 
-information presented later in this guide, and that are important 
-in describing the qualities of a system's data. These are 
-Precision, Accuracy, Concurrency, and Transparency, or in manager 
-speak, PACT. The exmples presented use an ubiquitous dataset in 
-almost every transit data project, a dataset of stops.
+At many agencies, data on schedules already exists, and new 
+projects are often thought up believing that existing data will 
+work without major rework. Sadly, is often not the case. This 
+chapter presents four crucial qualitatitive concepts that are 
+important in describing the qualities of a system's data. These 
+are Precision, Accuracy, Concurrency, and Transparency, or, in 
+manager speak, PACT. By reviewing the quality of the datasets 
+involved according to these four concepts, project teams can 
+address possible concerns before beginning development, with the 
+aim of reducing errors during the implementation stage. The 
+quantification of these concepts is not addressed. The exmples 
+presented use an ubiquitous dataset in almost every transit data 
+project, a dataset of stops.
 
-  Accuracy and Precision
+  Precision and Accuracy
 
 Precision of an example stop dataset, in ascending precision:
 
@@ -153,13 +127,14 @@ Precision of an example stop dataset, in ascending precision:
 
 
 
-Two terms are often used to describe the quality of a dataset--- 
-accuracy and precison. The accuracy of a dataset is the degree of 
-closeness that a record or observation matches the real-world 
-value. Precision refers to the level of refinement available in 
-the dataset to store said record. A stop dataset provides a 
-simple case for differing levels of precision and accuracy, and 
-these two concepts are described in the margin. 
+Statisticians and Geospatial scientists use two terms primarily 
+to describe the quality of a dataset--- accuracy and precison. 
+The accuracy of a dataset is the degree of closeness that a 
+record or observation matches the real-world value. Precision 
+refers to the level of refinement available in the dataset to 
+store said record. A stop dataset provides a simple case for 
+differing levels of precision and accuracy, and these two 
+concepts are described in the margin. 
 
 Accuracy of the example stop dataset is dependent various 
 factors, including:
@@ -171,25 +146,24 @@ factors, including:
 
 • Master database update frequency 
 
-  – i.e. when does the notification get entered into the central 
-    system
+  – e.g. “Stop changes are entered into the database within 1 
+    week.”
 
 • Frequency of exports and releases
 
-  – i.e. at what interval is GTFS generated from the master 
-    database
+  – e.g. 'GTFS is generated at least every 4 months.”
 
 A dataset can be accurate but not precise, precise but not 
 accurate, neither, or both. Some organizations conduct expensive, 
 highly detailed stop surveys which are both precise and accurate 
-at the time of their creation. It is not uncommon for this survey 
-to be considered part of a capital project, and upon completion 
-the dataset's owners often 'wipe their hands,' believing that the 
-work is done. This, however, is often a folly. Due to changes on 
-the ground, accuracy of a stop dataset degrades over time if it 
-is not updated. Streets are paved and closed, businesses open and 
-close, and in some areas new neighborhoods are constructed 
-quickly.
+at the time of their creation, but these lose accuracy over time. 
+It is not uncommon for the very first survey to be considered 
+only as part of a capital project, and the organization in 
+question believes that the work is done. This, however, is often 
+a folly. Due to changes on the ground, accuracy of a stop dataset 
+degrades over time if it is not updated. Streets are paved and 
+closed, businesses open and close, and in some areas entire 
+neighborhoods appear overnight.
 
 
   Concurrency
@@ -200,70 +174,79 @@ elephant in the room in projects that draw upon data from
 multiple systems is the concurrency of that data. Concurrency, in 
 this case, refers to the ability to join together, reliably, the 
 data from one or many systems[footnote:
-Yes, systems have the opportunity to not be concurrent with 
-themselves. Oftentimes, large transit operations use their 
-scheduling systems in phases, where one area may be ready for 
-production while the rest of the network is being worked on. For 
-example, Routes 1 and 2 pass by the stop at 1st and Main St. 
-Route 1 is scheduled at an earlier date than Route 2. When Route 
+Systems may not even be concurrent with themselves. Consider a 
+large organization that builds their schedule in phases; one area 
+may be ready for production while the rest of the network is 
+being worked on. For example, Routes 1 and 2 stop at 1st and Main 
+St. Route 1 has its schedule generated before Route 2. When Route 
 2 is scheduled, the scheduler has been notified that there will 
-be long term construction at 1st and Main St and buses cannot 
-stop there; she then removes the stop in a manner that affects 
-Route 2 only. When data is export from the scheduling system, 
-Route 1 will still be recorded as stopping at 1st and Main, even 
-though the network has been changed.
-]. The design of concurrent systems often entails finding 
-reliable techniques for coordinating their execution, data 
-exchange, and execution scheduling to minimize confusion and 
-maximise utility[footnote:
-Inspired by Wikipedia entry on concurrency 
-https://en.wikipedia.org/wiki/Concurrency_%28computer_science%29
+be long term construction at 1st and Main and buses cannot stop 
+there; she then removes the stop for Route 2 only. When data is 
+export from the scheduling system, Route 1 will still be recorded 
+as stopping at 1st and Main, even though the network has been 
+changed.
+]. A medium to large-size public transport operation may have an 
+IT workflow of many stages, covered by different departments or 
+even different organizations or agencies, public and private. The 
+less that the systems involved are concurrent, the more difficult 
+building a new system upon those projects will be. The design of 
+concurrent systems often entails finding reliable techniques for 
+coordinating their execution, data exchange, and execution 
+scheduling to minimize confusion and maximise utility[footnote:
+[2013concurrency]
 ]. Data from systems originally designed to work independently 
 may need some finesse to properly match.
 
   The Enemies of Concurrency
 
-It is often said that a system is only as good as its weakest 
-component. While it is difficult to quantify concurrency, it is 
-possible to suggest characteristics of 'weaker' data sources that 
-should be validated before use. Some of these are:
+While it is difficult to quantify concurrency, it is possible to 
+suggest characteristics of 'weaker' data sources that should be 
+validated before relying upon them. Some of these are:
 
-• Possibility of Unsanitized / Unvalidated data entry
+• Possibility of unsanitized / unvalidated data entry
 
   – If an operator can enter data that is invalid or 
     non-sensical, then the system that uses it must take this 
-    possibility into account.
+    possibility into account. Policies may need to be put in 
+    place to ensure correct entry.
 
 • Long update or synchronization intervals
 
-  – For a bus system, a stop dataset that is updated every 
-    several years is likely to have errors. 
+  – A dataset that models activity on the ground (e.g. bus stops) 
+    that is only updated every several years is likely to have 
+    errors. 
+
+• “Static includes”
+
+  – Systems may rely on one particular file as an input not 
+    coming from the same repository as other souces; it may be 
+    either as an export from an otherwise unconnected system, or 
+    a hand-updated file. If policies for updating the file in 
+    question (e.g. on a regular basis or simultaneously with 
+    other exports), the data in question may fall out of 
+    concurrency.
 
 • No / limited versioning
 
-  – Datasets should clearly include the times they were updated.
-
-A medium to large-size public transport operation may have an IT 
-workflow of many stages, often covered by different departments 
-or even different agencies, public and private. The less that the 
-systems involved are concurrent, the more difficult building a 
-new system upon those projects will be.
+  – Datasets should clearly include the times they were updated; 
+    thus, when two datasets are joined they can be sufficiently 
+    linked.
 
   Transparancy
 
 Hopefully, when working with data from an existing system, there 
 is documentation on what that data means. Often, however, when 
-the data has only been used for one purpose or within one 
-organization, the documentation is not complete. Transparency 
-refers to the degree to which the data conforms to the 
-documentation provided.
+the data has only been used for only one purpose or within one 
+organization or department, documentation is not complete. 
+Transparency refers to the degree to which the data conforms to 
+the documentation provided.
 
 • Poor and/or obsolete documentation
 
   – After implementation, some systems start off well-documented, 
     but as time goes on and minor changes are made to both the 
-    data and the usage of that data, said documentation is not 
-    always updated. Well-intentioned users may extend the 
+    data and the usage of that data. Documentation is not always 
+    updated in accordance. Well-intentioned users may extend the 
     existing data structure beyond the original design by adding 
     additional information that does not strictly conform to 
     original specifications.This information may or may not be 
@@ -271,7 +254,7 @@ documentation provided.
     to the point that when asked, the data owners suddenly recall 
     the difference.
 
-  – Agencies often take advantage of 'turnkey' systems that 
+  – Organizations often take advantage of 'turn-key' systems that 
     include an openly-accessible database component often add 
     additional functionality 'around the edges.' It is the 
     author's experience that these additions are rarely 
@@ -319,67 +302,106 @@ documentation provided.
 
   – a 'Primary Key' uniquely defines the characteristics of each 
     record in a dataset, and has to consist of characteristics 
-    that cannot be duplicated by any other row. If the key 
-    structure for a dataset is not clearly defined or not 
-    enforced, making the proper relations within the dataset is 
-    more difficult and concurrency may be affected.
+    that are unique. If the key structure for a dataset is not 
+    clearly defined or not enforced, making the proper relations 
+    within the dataset is more difficult and concurrency may be 
+    affected.
 
 • Data intended for human visual consumption.
 
-  – Data should be machine readable, not just human readable. If 
-    a system has previously been used with the sole aim of output 
-    for human interpretation, it is likely that in places data 
-    are conflated together or that the data does not accurately 
-    conform to its specification. 
+  – Input data should be machine readable, not just human 
+    readable. If a system has previously been used as the final 
+    point in a data flow with the sole aim of output for human 
+    interpretation, it is likely that in places data does not 
+    accurately conform to its specification. This, when combined 
+    with unvalidated entries, can be especially confusing during 
+    implementation. 
 
-• Specifications that do not agree with established practice 
+• Unclear methods of interpolation.
+
+  – When data from one system is interpolated by a “black box” 
+    process, the results are often unclear. [margin:
+A common case of this problem is the interpolation of stop times 
+from AVL systems. There are several methods for determining the 
+time when a bus passed by a particular stop. If a system only 
+presents one time, was it the arrival or the departure time? Was 
+there any interpolation involved in calculating the time, or is 
+it simply the time of the position nearest to the stop in 
+question?
+]
+
+• Specifications that do not agree with established practice or 
   common nomenclature
 
   – Developers are notorious for not reading documentation. If a 
     format specification happens to borrow a term from the common 
     nomenclature and use that term either in a more loose or 
     strict fashion, it is likely that the generators of the 
-    format are using the field according to their definition. An 
-    example of this is provided in the margin. [margin:
+    format are using the field according to their definition. [margin:
 A Vehicle Block, in common transit usage, is vehicle's schedule 
 that begins and ends at a depot. GTFS provides optional block_id 
-support, specifically for when “a passenger can transfer from one 
-trip to the next just by staying in the vehicle.” It is not 
+information, specifically for when “a passenger can transfer from 
+one trip to the next just by staying in the vehicle.” It is not 
 uncommon that GTFS feeds use the common definition, rather than 
 conform strictly to the GTFS specification.
 ]
 
   Requirements for data based on project type
 
-In growing order of precision, accuracy, and concurrency:
+As ITS infrastructure evolves and as additional systems or 
+functionality are added to an organization's portfolio, the need 
+for additional precision, accuracy, and concurrency increases. 
+While data may exist, it is important to take into consideration 
+the data's PACT given it's previous uses. Maintaining confidence 
+in the system Most large transit organizations have had a rough 
+progression in systems along the lines of the following.
 
-Scheduling
+Scheduling: Early scheduling systems took into account only 
+terminals and timepoints, using a simple schematic network 
+between them. Geography or intermediate stops were not taken into 
+account.
 
-Detailed Scheduling
+Detailed Scheduling: Modern scheduling systems include geographic 
+information for paths and stops and has the ability to generate 
+passing times for each stop, which allows for detailed GTFS 
+creation.
 
-CAD/AVL
+Computer Aided Dispatching: In order to dispatch effectively, 
+locations of terminals and timepoints must be accurate. If a 
+timepoint is on the wrong side of the intersection or block, the 
+CAD system will produce incorrect results in that vicinity.
 
-Static Trip Planning
+Static Trip Planning: Passengers need to know where to board and 
+alight the bus.
 
-Real-Time Customer Information
+Real-Time Passenger Information: The location of every stop must 
+be within reason, and every revenue trip must be accounted for.
 
-Reporting
+Reporting and Analysis: Reporting on the work that goes on 
+behind-the-scenes requires the behind-the-scenes data (e.g. runs 
+and blocks) to be correct, above and beyond the passenger 
+information use case.
 
-On Board Announcements
+On Board Announcements: Announcements made too late because of 
+incorrect stop locations or for stops that do not exist render 
+the system useless.
 
-Real-Time Trip Planning
+Real-Time Trip Planning: Planning trips in real time, sometimes 
+hours in advance, requires the greatest level of PACT from all of 
+the above-- systems must concur for real-time information in the 
+future to be valid.
 
-  Changes: when and why.
+  Changes: They are a'comin.
 
 Given the complex nature of many transit systems and the 
 differing requirements for PACT based on the type of project, the 
 question is not if data will need changing, but when and how. 
-When implementing a complex system using data from another party, 
-it is often easier for all parties when the data producers and 
-users agree on a policy on what data should be updated and at 
-what moment. One framework that may be useful in quantifying the 
-value of updates to data is to define impacts from service 
-changes over three dimensions: 
+When implementing a complex system depending touching party, it 
+is often easier for all parties when the data producers and users 
+agree on a policy on what data should be updated and at what 
+moment. One framework that may be useful in quantifying the value 
+of updates to data is to define impacts from service changes over 
+three dimensions: 
 
 • (temporal) duration, the amount of time that the change will be 
   in effect;
@@ -389,10 +411,13 @@ changes over three dimensions:
 • (human) magnitude, the number of customers/passengers that are 
   affected. 
 
-The data owners should define the relevant impact classifications 
-(short versus long duration, small versus large area, etc), and 
-the proper policy will be specific to the organization's needs. 
-One of many possible strategies is outlined below.
+As with the proper level of PACT, there is no universal policy 
+for data changes, and one should be developed on a project by 
+project basis. The data owners should define the relevant impact 
+classifications (short versus long duration, small versus large 
+area, etc), and the proper policy will be specific to the 
+organization's needs. One of many possible strategies is outlined 
+below.
 
 
 +-------------+----------+--------+-----------------------------------------+
@@ -408,117 +433,4 @@ One of many possible strategies is outlined below.
 |    Long     |  Large   | Large  |       Update schedule data ASAP.        |
 +-------------+----------+--------+-----------------------------------------+
 
-
-The “Common” scheduling model.
-
-As the GTFS model does not always match the common scheduling 
-model, some sections below contain additional information. 
-
-A trip is a movement from origin to destination, where origin or 
-destination may be a garage or terminal. Trips may either be 
-revenue (in service) or non-revenue (e.g. 'pullout' from depot, 
-'pullin' to depot, deadhead between locations or 'layover' at one 
-location).
-
-Related although not covered explicitly in the GTFS model are 
-trip Patterns (also called variants): a specific series of stops 
-and routing that can be repeated one or many times within a 
-schedule. GTFS can handle trip patterns by specifying a base trip 
-and making an entry in the frequencies.txt file.
-
-Block: set of bus movements that begin at a depot (the first 
-movement being a “pullout”) and end at a depot (the last movement 
-being a “pullin”). A block consists of a series of complete 
-revenue and non-revenue trips. One vehicle can serve multiple 
-blocks in a day. GTFS provides optional block_id support in the 
-trips.txt file, specifically for when “a passenger can transfer 
-from one trip to the next just by staying in the vehicle.” It is 
-common that the strict GTFS definition is not actually followed 
-by processes that generate GTFS. Block identifiers are highly 
-useful when joining data from two different sources. 
-
-Run: an operator’s daily work assignment, which covers a series 
-of partial or complete trips. One or more runs can work a single 
-block. Runs can also work on multiple vehicles/blocks. GTFS, in 
-its purest form, does not model blocks; understanding the limits 
-in a vehicle operator's scheduled work, however, may uncover 
-errors that present themselves in transit data.
-
-The difference between runs, blocks and trips, is illustrated in 
-the diagram below: Figure 3: Example Run/Trip/Block Time-Space 
-Diagram
-
-  Calendar.txt
-
-Service Date: a given trip, block, or run of transit service may 
-span multiple calendar days. However, each of these is associated 
-with a particular “service date” defining the calendar data used 
-for record-keeping of that unit of service. For example, a run 
-might span from 11:00pm on a Saturday until 5:00am Sunday. In 
-this case, the run, and all trips on that run, will be typically 
-associated with the service date equal to the date on which most 
-of the service occurred, even if they actually occur on the date 
-prior.
-
-Service ID / Service Class: an abstraction for specifying the set 
-of trips that will run on a certain type of day (e.g. Weekday, 
-Saturday, Holiday). One Service Date will have one Service Class. 
-GTFS models these in the calendar.txt and calendar_dates.txt 
-files.
-
-  Shapes.txt
-
-Shapes or Paths are often generated by performing a network 
-analysis, tracing a route along a defined street or track 
-network. Depending on the system, a data provider may use an 
-existing off-the-shelf dataset as a base, modify said dataset, or 
-have their own network. There are many problems that can arise 
-when the underlying dataset is not accurate; see later in this 
-document for further examples. 
-
-The GTFS Model and Issues That May Arise
-
-  Shapes.txt 
-
-Incomplete networks. Bad topology. Physically impossible routings
-
--- missing sections
-
-  Stops.txt
-
-  Like in Real Estate
-
-It is often said that the only thing that matters in real estate 
-is “Location, Location, Location.” This is also true for stop 
-locations and names in transit data. Stops need to be accurate to 
-a reasonable amount because:
-
-Terminals and Layovers
-
-Announcements
-
-Lining data up between agencies
-
-  When is a stop not a stop?
-
-Often, automated scheduling software does not draw a shape 
-correctly. In order to help the automated routing algorithm to 
-make the correct route, schedulers often insert 'dummy stops,' 
-where non-revenue stops are included in the system. Dummy stops 
-may also be included to faciltate scheduling and road operations 
-(e.g. 'this trip should pass First Ave and Main St at 5:00'). As 
-these are non-revenue stops, they should not make it into a trip 
-planner or AVL system.
-
-Trips - Concurrency
-
-Awry: Physically impossible routings 
-
-Stops and Stop_times out of geo / temporal order 
-
-What happens around midnight 
-
-Layover / Terminal Locations 
-
-Missing data (e.g. shapes, trips) 
 
