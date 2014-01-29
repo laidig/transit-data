@@ -102,65 +102,27 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-The last decade has seen an explosion in the availability of data, and public
- transit is no exception.
- The development of the General (originally Google) Transit Feed Structure
- (GTFS) in 2005 brought to light data that was previously available to the
- public only on paper.
- Previously, when data was available for interchange internally, it was
- less accessible-- usually in more complex (e.g.
- TransXchange, TCIP), proprietary (e.g.
- TSDE), or home-grown formats.
- GTFS brings transit schedule data into a modern, open, and easily-consumable
- world by presenting a simplified de-facto standard that many developers
- can use without the knowing the intricacies of transit operations.
- Since that time, the number of publicly available feeds has grown exponentially
-, as has the number of 'outsiders
-\begin_inset Marginal
-status open
-
-\begin_layout Plain Layout
-'Outsiders' may refer to those within an organization acting as internal
- clients.
-\end_layout
-
-\end_inset
-
-' working with transit datasets has grown tremendously, and a number of
- applications using this data have been produced.
- 
-\end_layout
-
-\begin_layout Standard
 This document is intended to provide a statring point for a dialog between
  the parties involved in transit data creation and usage through practical
  qualitative concepts.
- Unlike many practical guides, it is intended to be useful at any stage
- of project development, even, and especially at the design stage.
- It is not intended to supplant the existing official GTFS documentation
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-https://developers.google.com/transit/gtfs/reference
+ The following groups may find it useful:
 \end_layout
 
-\end_inset
-
-, provide anything more than a brief introduction to scheduling practice,
- or be a survey of the practice in ITS systems implementation and engineering
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-There are better sources on that, such as http://www.fta.dot.gov/documents/2010Tran
-sitITSArchRvw_-_08.29.2011.pdf
+\begin_layout Itemize
+Project Managers, Consultants, and Business Analysts who are tasked with
+ estimating resources for a project using available and newly created data
+ sources.
 \end_layout
 
-\end_inset
+\begin_layout Itemize
+Technologists, in consultation with their project team and stakeholders,
+ who are looking for a guidance in measuring available data quality.
+ potential gaps, and solutions.
+\end_layout
 
-.
- 
+\begin_layout Itemize
+Analysts, who may need a simple framework to describe issues with transit
+ data.
 \end_layout
 
 \begin_layout Section
@@ -226,8 +188,8 @@ A PACT for Good Data
 \end_layout
 
 \begin_layout Standard
-At many agencies, data on schedules already exists, and new projects are
- often thought up believing that existing data will work without major rework.
+Many agencies have existing, and new projects are often thought up believing
+ that existing data will serve new purposes without major rework.
  Sadly, is often not the case.
  This chapter presents four crucial qualitatitive concepts that are important
  in describing the qualities of a system's data.
@@ -428,7 +390,7 @@ concurrency
 \emph default
  of that data.
  Concurrency, in this case, refers to the ability to join together, reliably,
- the data from one or many systems
+ the data from one or many systems.
 \begin_inset Foot
 status open
 
@@ -448,8 +410,7 @@ Systems may not even be concurrent with themselves.
 
 \end_inset
 
-.
- A medium to large-size public transport operation may have an IT workflow
+A medium to large-size public transport operation may have an IT workflow
  of many stages, covered by different departments or even different organization
 s or agencies, public and private.
  The less that the systems involved are concurrent, the more difficult building
@@ -506,7 +467,7 @@ Long update or synchronization intervals
 
 \begin_deeper
 \begin_layout Itemize
-A dataset that models activity on the ground (e.g.
+A dataset that models frequently changing datapoints (e.g.
  bus stops) that is only updated every several years is likely to have errors.
  
 \end_layout
@@ -540,7 +501,7 @@ No / limited versioning
 
 \begin_deeper
 \begin_layout Itemize
-Datasets should clearly include the times they were updated; thus, when
+Datasets should clearly include the times they were updated so that when
  two datasets are joined they can be sufficiently linked.
 \end_layout
 
@@ -567,9 +528,8 @@ Poor and/or obsolete documentation
 
 \begin_deeper
 \begin_layout Itemize
-After implementation, some systems start off well-documented, but as time
- goes on and minor changes are made to both the data and the usage of that
- data.
+Systems may be with good documentation, but as time goes on minor changes
+ may be made to both the data format and the usage of that data.
  Documentation is not always updated in accordance.
  Well-intentioned users may extend the existing data structure beyond the
  original design by adding additional information that does not strictly
@@ -854,67 +814,6 @@ a passenger can transfer from one trip to the next just by staying in the
 \end_layout
 
 \end_deeper
-\begin_layout Section*
-Requirements for data based on project type
-\end_layout
-
-\begin_layout Standard
-As ITS infrastructure evolves and as additional systems or functionality
- are added to an organization's portfolio, the need for additional precision,
- accuracy, and concurrency increases.
- While data may exist, it is important to take into consideration the data's
- PACT given it's previous uses.
- Maintaining confidence in the system Most large transit organizations have
- had a rough progression in systems along the lines of the following.
-\end_layout
-
-\begin_layout Standard
-Scheduling: Early scheduling systems took into account only terminals and
- timepoints, using a simple schematic network between them.
- Geography or intermediate stops were not taken into account.
-\end_layout
-
-\begin_layout Standard
-Detailed Scheduling: Modern scheduling systems include geographic information
- for paths and stops and has the ability to generate passing times for each
- stop, which allows for detailed GTFS creation.
-\end_layout
-
-\begin_layout Standard
-Computer Aided Dispatching: In order to dispatch effectively, locations
- of terminals and timepoints must be accurate.
- If a timepoint is on the wrong side of the intersection or block, the CAD
- system will produce incorrect results in that vicinity.
-\end_layout
-
-\begin_layout Standard
-Static Trip Planning: Passengers need to know where to board and alight
- the bus.
-\end_layout
-
-\begin_layout Standard
-Real-Time Passenger Information: The location of every stop must be within
- reason, and every revenue trip must be accounted for.
-\end_layout
-
-\begin_layout Standard
-Reporting and Analysis: Reporting on the work that goes on behind-the-scenes
- requires the behind-the-scenes data (e.g.
- runs and blocks) to be correct, above and beyond the passenger information
- use case.
-\end_layout
-
-\begin_layout Standard
-On Board Announcements: Announcements made too late because of incorrect
- stop locations or for stops that do not exist render the system useless.
-\end_layout
-
-\begin_layout Standard
-Real-Time Trip Planning: Planning trips in real time, sometimes hours in
- advance, requires the greatest level of PACT from all of the above-- systems
- must concur for real-time information in the future to be valid.
-\end_layout
-
 \begin_layout Section
 Changes: They are a'comin.
 \end_layout
@@ -1163,6 +1062,66 @@ Update schedule data ASAP.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Chapter*
+Conclusion: Why does this all matter? 
+\end_layout
+
+\begin_layout Standard
+As new uses for existing data are required, the need for additional precision,
+ accuracy, concurrency, and transparancy may increase with them.
+ While data may exist, it is important to take into consideration the data's
+ PACT given it's previous uses.
+ Most large transit organizations have had a rough progression in systems
+ along the lines of the following.
+\end_layout
+
+\begin_layout Standard
+Scheduling: Early scheduling systems took into account only terminals and
+ timepoints, using a simple schematic network between them.
+ Geography or intermediate stops were not taken into account.
+\end_layout
+
+\begin_layout Standard
+Detailed Scheduling: Modern scheduling systems include geographic information
+ for paths and stops and has the ability to generate passing times for each
+ stop, which allows for detailed GTFS creation.
+\end_layout
+
+\begin_layout Standard
+Computer Aided Dispatching: In order to dispatch effectively, locations
+ of terminals and timepoints must be accurate.
+ If a timepoint is on the wrong side of the intersection or block, the CAD
+ system will produce incorrect schedule adherence in that vicinity.
+\end_layout
+
+\begin_layout Standard
+Static Trip Planning: Passengers need to know where to board and alight
+ the bus.
+\end_layout
+
+\begin_layout Standard
+Real-Time Passenger Information: The location of every stop must be within
+ reason, and every revenue trip must be accounted for.
+\end_layout
+
+\begin_layout Standard
+Reporting and Analysis: Reporting on service delivery requires the behind-the-sc
+enes data (e.g.
+ runs and blocks) to be correct, above and beyond the passenger information
+ use case.
+\end_layout
+
+\begin_layout Standard
+On Board Announcements: Announcements made too late because of incorrect
+ stop locations or for stops that do not exist render the system useless.
+\end_layout
+
+\begin_layout Standard
+Real-Time Trip Planning: Planning trips in real time, sometimes hours in
+ advance, requires the greatest level of PACT from all of the above-- systems
+ must concur for real-time information in the future to be valid.
 \end_layout
 
 \end_body
