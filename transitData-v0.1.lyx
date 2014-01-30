@@ -1078,8 +1078,8 @@ As new uses for existing data are required, the need for additional precision,
 \end_layout
 
 \begin_layout Standard
-Scheduling: Early scheduling systems took into account only terminals and
- timepoints, using a simple schematic network between them.
+Scheduling: Early scheduling systems focused primarily on driver schedules
+ over geographic schedules, using a simple schematic network between them.
  Geography or intermediate stops were not taken into account.
 \end_layout
 
