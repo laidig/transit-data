@@ -102,10 +102,91 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-This document is intended to provide a statring point for a dialog between
- the parties involved in transit data creation and usage through practical
- qualitative concepts.
- The following groups may find it useful:
+The usage of certain management principles, technologies, design concepts,
+ and development methodologies can lead to delivering a successful project,
+ the question of the data required to drive that project is often not discussed
+ at more than than a checklist level; if the input data exists, then the
+ project is a go.
+ This results in large, and often unacknowledged risks to the project, and
+ when a problem occurs, the results are often noticable:
+\end_layout
+
+\begin_layout Quotation
+\begin_inset Quotes eld
+\end_inset
+
+The [tracking] program was put on hold in the fall of 2007, after [transit
+ agency] announced that software problems were causing customers to receive
+ inaccurate information
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset Quotes eld
+\end_inset
+
+One problem, developers said, is that some of the information [transit agency]
+ provides developers for its bus system was missing data on route destinations.
+ At other times, developers said, 'weird' formatting or perhaps a software
+ bug makes the name of a bus route — such as the 10A — appear as the time,
+ as in 10 a.m
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset Quotes eld
+\end_inset
+
+Unfortunately, in its current incarnation, the system cannot differentiate
+ when it is displaying schedule data due to real-time data being unavailable.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset Quotes eld
+\end_inset
+
+[S]tops are labeled on the map, but all stations are a blue “M” with no
+ regard to their corresponding lines.
+ Indicators of stations with transfer possibilities are noticeably absent;
+ nor can you [...] search for specific stations.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The quotes above show the effect of bad or marginal data on what may be
+ otherwise good projects.
+ In short, no amount of Agile Service-Oriented Architecture can save a project
+ from bad data.
+\end_layout
+
+\begin_layout Standard
+This document is intended to provide language for a dialog between parties
+ involved in transit data creation and usage through practical qualitative
+ concepts, with the intention of making currently intangible risks 
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+Intangible risks have a high probability of occurring, but are not identificatie
+d and thus unmitigated.
+\end_layout
+
+\end_inset
+
+ obvious.The following groups may find it useful:
 \end_layout
 
 \begin_layout Itemize
@@ -117,12 +198,11 @@ Project Managers, Consultants, and Business Analysts who are tasked with
 \begin_layout Itemize
 Technologists, in consultation with their project team and stakeholders,
  who are looking for a guidance in measuring available data quality.
- potential gaps, and solutions.
+ potential gaps, and developing solutions to bridge those gaps.
 \end_layout
 
 \begin_layout Itemize
-Analysts, who may need a simple framework to describe issues with transit
- data.
+Analysts, who may need a simple framework to describe issues with data.
 \end_layout
 
 \begin_layout Section

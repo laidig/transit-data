@@ -20,38 +20,57 @@ Attribution-NonCommercial-ShareAlike 4.0 International License.
 
 Introduction
 
-The last decade has seen an explosion in the availability of 
-data, and public transit is no exception. The development of the 
-General (originally Google) Transit Feed Structure (GTFS) in 2005 
-brought to light data that was previously available to the public 
-only on paper. Previously, when data was available for 
-interchange internally, it was less accessible-- usually in more 
-complex (e.g. TransXchange, TCIP), proprietary (e.g. TSDE), or 
-home-grown formats. GTFS brings transit schedule data into a 
-modern, open, and easily-consumable world by presenting a 
-simplified de-facto standard that many developers can use without 
-the knowing the intricacies of transit operations. Since that 
-time, the number of publicly available feeds has grown 
-exponentially, as has the number of 'outsiders[margin:
-'Outsiders' may refer to those within an organization acting as 
-internal clients.
-]' working with transit datasets has grown tremendously, and a 
-number of applications using this data have been produced. 
+The usage of certain management principles, technologies, design 
+concepts, and development methodologies can lead to delivering a 
+successful project, the question of the data required to drive 
+that project is often not discussed at more than than a checklist 
+level; if the input data exists, then the project is a go. This 
+results in large, and often unacknowledged risks to the project, 
+and when a problem occurs, the results are often noticable:
 
-This document is intended to provide a statring point for a 
-dialog between the parties involved in transit data creation and 
-usage through practical qualitative concepts. Unlike many 
-practical guides, it is intended to be useful at any stage of 
-project development, even, and especially at the design stage. It 
-is not intended to supplant the existing official GTFS 
-documentation[footnote:
-https://developers.google.com/transit/gtfs/reference
-], provide anything more than a brief introduction to scheduling 
-practice, or be a survey of the practice in ITS systems 
-implementation and engineering[footnote:
-There are better sources on that, such as 
-http://www.fta.dot.gov/documents/2010TransitITSArchRvw_-_08.29.2011.pdf
-]. 
+“The [tracking] program was put on hold in the fall of 2007, 
+after [transit agency] announced that software problems were 
+causing customers to receive inaccurate information”
+
+“One problem, developers said, is that some of the information 
+[transit agency] provides developers for its bus system was 
+missing data on route destinations. At other times, developers 
+said, 'weird' formatting or perhaps a software bug makes the name 
+of a bus route — such as the 10A — appear as the time, as in 10 
+a.m”
+
+“Unfortunately, in its current incarnation, the system cannot 
+differentiate when it is displaying schedule data due to 
+real-time data being unavailable.”
+
+“[S]tops are labeled on the map, but all stations are a blue “M” 
+with no regard to their corresponding lines. Indicators of 
+stations with transfer possibilities are noticeably absent; nor 
+can you [...] search for specific stations.”
+
+The quotes above show the effect of bad or marginal data on what 
+may be otherwise good projects. In short, no amount of Agile 
+Service-Oriented Architecture can save a project from bad data.
+
+This document is intended to provide language for a dialog 
+between parties involved in transit data creation and usage 
+through practical qualitative concepts, with the intention of 
+making currently intangible risks [margin:
+Intangible risks have a high probability of occurring, but are 
+not identificatied and thus unmitigated.
+] obvious.The following groups may find it useful:
+
+• Project Managers, Consultants, and Business Analysts who are 
+  tasked with estimating resources for a project using available 
+  and newly created data sources.
+
+• Technologists, in consultation with their project team and 
+  stakeholders, who are looking for a guidance in measuring 
+  available data quality. potential gaps, and developing 
+  solutions to bridge those gaps.
+
+• Analysts, who may need a simple framework to describe issues 
+  with data.
 
   Why Schedule?
 
@@ -94,19 +113,19 @@ of this model's representation of reality.
 
 A PACT for Good Data
 
-At many agencies, data on schedules already exists, and new 
-projects are often thought up believing that existing data will 
-work without major rework. Sadly, is often not the case. This 
-chapter presents four crucial qualitatitive concepts that are 
-important in describing the qualities of a system's data. These 
-are Precision, Accuracy, Concurrency, and Transparency, or, in 
-manager speak, PACT. By reviewing the quality of the datasets 
-involved according to these four concepts, project teams can 
-address possible concerns before beginning development, with the 
-aim of reducing errors during the implementation stage. The 
-quantification of these concepts is not addressed. The exmples 
-presented use an ubiquitous dataset in almost every transit data 
-project, a dataset of stops.
+Many agencies have existing, and new projects are often thought 
+up believing that existing data will serve new purposes without 
+major rework. Sadly, is often not the case. This chapter presents 
+four crucial qualitatitive concepts that are important in 
+describing the qualities of a system's data. These are Precision, 
+Accuracy, Concurrency, and Transparency, or, in manager speak, 
+PACT. By reviewing the quality of the datasets involved according 
+to these four concepts, project teams can address possible 
+concerns before beginning development, with the aim of reducing 
+errors during the implementation stage. The quantification of 
+these concepts is not addressed. The exmples presented use an 
+ubiquitous dataset in almost every transit data project, a 
+dataset of stops.
 
   Precision and Accuracy
 
@@ -173,7 +192,7 @@ project that only uses, or heavily relies upon one dataset. The
 elephant in the room in projects that draw upon data from 
 multiple systems is the concurrency of that data. Concurrency, in 
 this case, refers to the ability to join together, reliably, the 
-data from one or many systems[footnote:
+data from one or many systems.[footnote:
 Systems may not even be concurrent with themselves. Consider a 
 large organization that builds their schedule in phases; one area 
 may be ready for production while the rest of the network is 
@@ -185,10 +204,10 @@ there; she then removes the stop for Route 2 only. When data is
 export from the scheduling system, Route 1 will still be recorded 
 as stopping at 1st and Main, even though the network has been 
 changed.
-]. A medium to large-size public transport operation may have an 
-IT workflow of many stages, covered by different departments or 
-even different organizations or agencies, public and private. The 
-less that the systems involved are concurrent, the more difficult 
+]A medium to large-size public transport operation may have an IT 
+workflow of many stages, covered by different departments or even 
+different organizations or agencies, public and private. The less 
+that the systems involved are concurrent, the more difficult 
 building a new system upon those projects will be. The design of 
 concurrent systems often entails finding reliable techniques for 
 coordinating their execution, data exchange, and execution 
@@ -212,9 +231,9 @@ validated before relying upon them. Some of these are:
 
 • Long update or synchronization intervals
 
-  – A dataset that models activity on the ground (e.g. bus stops) 
-    that is only updated every several years is likely to have 
-    errors. 
+  – A dataset that models frequently changing datapoints (e.g. 
+    bus stops) that is only updated every several years is likely 
+    to have errors. 
 
 • “Static includes”
 
@@ -228,8 +247,8 @@ validated before relying upon them. Some of these are:
 
 • No / limited versioning
 
-  – Datasets should clearly include the times they were updated; 
-    thus, when two datasets are joined they can be sufficiently 
+  – Datasets should clearly include the times they were updated 
+    so that when two datasets are joined they can be sufficiently 
     linked.
 
   Transparancy
@@ -243,11 +262,11 @@ the documentation provided.
 
 • Poor and/or obsolete documentation
 
-  – After implementation, some systems start off well-documented, 
-    but as time goes on and minor changes are made to both the 
-    data and the usage of that data. Documentation is not always 
-    updated in accordance. Well-intentioned users may extend the 
-    existing data structure beyond the original design by adding 
+  – Systems may be with good documentation, but as time goes on 
+    minor changes may be made to both the data format and the 
+    usage of that data. Documentation is not always updated in 
+    accordance. Well-intentioned users may extend the existing 
+    data structure beyond the original design by adding 
     additional information that does not strictly conform to 
     original specifications.This information may or may not be 
     passed down through word of mouth, and is often internalized 
@@ -346,51 +365,6 @@ uncommon that GTFS feeds use the common definition, rather than
 conform strictly to the GTFS specification.
 ]
 
-  Requirements for data based on project type
-
-As ITS infrastructure evolves and as additional systems or 
-functionality are added to an organization's portfolio, the need 
-for additional precision, accuracy, and concurrency increases. 
-While data may exist, it is important to take into consideration 
-the data's PACT given it's previous uses. Maintaining confidence 
-in the system Most large transit organizations have had a rough 
-progression in systems along the lines of the following.
-
-Scheduling: Early scheduling systems took into account only 
-terminals and timepoints, using a simple schematic network 
-between them. Geography or intermediate stops were not taken into 
-account.
-
-Detailed Scheduling: Modern scheduling systems include geographic 
-information for paths and stops and has the ability to generate 
-passing times for each stop, which allows for detailed GTFS 
-creation.
-
-Computer Aided Dispatching: In order to dispatch effectively, 
-locations of terminals and timepoints must be accurate. If a 
-timepoint is on the wrong side of the intersection or block, the 
-CAD system will produce incorrect results in that vicinity.
-
-Static Trip Planning: Passengers need to know where to board and 
-alight the bus.
-
-Real-Time Passenger Information: The location of every stop must 
-be within reason, and every revenue trip must be accounted for.
-
-Reporting and Analysis: Reporting on the work that goes on 
-behind-the-scenes requires the behind-the-scenes data (e.g. runs 
-and blocks) to be correct, above and beyond the passenger 
-information use case.
-
-On Board Announcements: Announcements made too late because of 
-incorrect stop locations or for stops that do not exist render 
-the system useless.
-
-Real-Time Trip Planning: Planning trips in real time, sometimes 
-hours in advance, requires the greatest level of PACT from all of 
-the above-- systems must concur for real-time information in the 
-future to be valid.
-
   Changes: They are a'comin.
 
 Given the complex nature of many transit systems and the 
@@ -433,4 +407,48 @@ below.
 |    Long     |  Large   | Large  |       Update schedule data ASAP.        |
 +-------------+----------+--------+-----------------------------------------+
 
+
+Conclusion: Why does this all matter? 
+
+As new uses for existing data are required, the need for 
+additional precision, accuracy, concurrency, and transparancy may 
+increase with them. While data may exist, it is important to take 
+into consideration the data's PACT given it's previous uses. Most 
+large transit organizations have had a rough progression in 
+systems along the lines of the following.
+
+Scheduling: Early scheduling systems focused primarily on driver 
+schedules over geographic schedules, using a simple schematic 
+network between them. Geography or intermediate stops were not 
+taken into account.
+
+Detailed Scheduling: Modern scheduling systems include geographic 
+information for paths and stops and has the ability to generate 
+passing times for each stop, which allows for detailed GTFS 
+creation.
+
+Computer Aided Dispatching: In order to dispatch effectively, 
+locations of terminals and timepoints must be accurate. If a 
+timepoint is on the wrong side of the intersection or block, the 
+CAD system will produce incorrect schedule adherence in that 
+vicinity.
+
+Static Trip Planning: Passengers need to know where to board and 
+alight the bus.
+
+Real-Time Passenger Information: The location of every stop must 
+be within reason, and every revenue trip must be accounted for.
+
+Reporting and Analysis: Reporting on service delivery requires 
+the behind-the-scenes data (e.g. runs and blocks) to be correct, 
+above and beyond the passenger information use case.
+
+On Board Announcements: Announcements made too late because of 
+incorrect stop locations or for stops that do not exist render 
+the system useless.
+
+Real-Time Trip Planning: Planning trips in real time, sometimes 
+hours in advance, requires the greatest level of PACT from all of 
+the above-- systems must concur for real-time information in the 
+future to be valid.
 
