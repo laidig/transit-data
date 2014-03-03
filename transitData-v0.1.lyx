@@ -101,16 +101,6 @@ mercial-ShareAlike 4.0 International License.
 Introduction
 \end_layout
 
-\begin_layout Standard
-The usage of certain management principles, technologies, design concepts,
- and development methodologies can lead to delivering a successful project,
- the question of the data required to drive that project is often not discussed
- at more than than a checklist level; if the input data exists, then the
- project is a go.
- This results in large, and often unacknowledged risks to the project, and
- when a problem occurs, the results are often noticable:
-\end_layout
-
 \begin_layout Quotation
 \begin_inset Quotes eld
 \end_inset
@@ -166,10 +156,13 @@ Unfortunately, in its current incarnation, the system cannot differentiate
 \end_layout
 
 \begin_layout Standard
-The quotes above show the effect of bad or marginal data on what may be
- otherwise good projects.
- In short, no amount of Agile Service-Oriented Architecture can save a project
- from bad data.
+Every person tasked with implementing an IT project dreads encountering
+ quotes like those above.
+ How then, in an era of where many technologies are off-the-shelf and systems
+ engineering is prevalent, do these problems keep happening? The answer
+ is the unconsidered effect of bad or marginal data on what may be otherwise
+ good projects.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -186,7 +179,7 @@ d and thus unmitigated.
 
 \end_inset
 
- obvious.The following groups may find it useful:
+ more obvious.The following groups may find it useful:
 \end_layout
 
 \begin_layout Itemize
@@ -197,70 +190,13 @@ Project Managers, Consultants, and Business Analysts who are tasked with
 
 \begin_layout Itemize
 Technologists, in consultation with their project team and stakeholders,
- who are looking for a guidance in measuring available data quality.
- potential gaps, and developing solutions to bridge those gaps.
+ who are looking for a guidance in measuring available data quality, potential
+ gaps, and developing solutions to bridge those gaps.
 \end_layout
 
 \begin_layout Itemize
-Analysts, who may need a simple framework to describe issues with data.
-\end_layout
-
-\begin_layout Section
-Why Schedule?
-\end_layout
-
-\begin_layout Standard
-It is quite common for the layman to ask, that a world of real-time information,
- what purpose does a schedule serve? In short, a schedule models what happens
- 'on the ground' when transit service is delievered.
- TCRP Report 135 (perhaps the best freely available guide on the topic of
- transit scheduling) defines four major groups that benefit from the existence
- of (realistic) schedules:
-\end_layout
-
-\begin_layout Enumerate
-\noindent
-To customers, a schedule provides the essential information needed to plan
- a trip, defines the arrival and departure times and the time the trip will
- take, makes sufficient capacity of service available so that the customers’
- trip will be comfortable, and ensures that customers will arrive at their
- destination at the promised time.
- 
-\end_layout
-
-\begin_layout Enumerate
-\noindent
-To operators, scheduling defines the workday.
- Operators are the front line in terms of dealing with customers, and the
- interaction can be affected by [realistic] running and layover times ...
- Good schedules can reduce the stress inherent in this job, thus improving
- morale and minimizing absenteeism.
- 
-\end_layout
-
-\begin_layout Enumerate
-\noindent
-To transit agencies, scheduling puts reliable service on the street where
- it will be most utilized.
- In addition, scheduling provides data and information to support other
- sections such as Marketing, Planning, Operations, Administration, and many
- downstream systems like AVL, APCs, voice annunciators, trip planners, and
- real time information systems.
- 
-\end_layout
-
-\begin_layout Enumerate
-\noindent
-To general managers and chief financial officers, scheduling has major impacts
- on the quality and cost of operations...
- Scheduling is the brain of the transit organism...
-\end_layout
-
-\begin_layout Standard
-For these four groups, the degree to which the schedule actually models
- reality plays a large part in its usefulness.
- The concepts discussed in Chapter 2 are intended to improve the final result
- of this model's representation of reality.
+Analysts, who may need a simple framework to describe issues with data to
+ its maintainers and owners.
 \end_layout
 
 \begin_layout Chapter
@@ -1157,51 +1093,71 @@ As new uses for existing data are required, the need for additional precision,
  along the lines of the following.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 Scheduling: Early scheduling systems focused primarily on driver schedules
  over geographic schedules, using a simple schematic network between them.
  Geography or intermediate stops were not taken into account.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 Detailed Scheduling: Modern scheduling systems include geographic information
  for paths and stops and has the ability to generate passing times for each
  stop, which allows for detailed GTFS creation.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 Computer Aided Dispatching: In order to dispatch effectively, locations
  of terminals and timepoints must be accurate.
  If a timepoint is on the wrong side of the intersection or block, the CAD
  system will produce incorrect schedule adherence in that vicinity.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 Static Trip Planning: Passengers need to know where to board and alight
  the bus.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 Real-Time Passenger Information: The location of every stop must be within
  reason, and every revenue trip must be accounted for.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 Reporting and Analysis: Reporting on service delivery requires the behind-the-sc
 enes data (e.g.
  runs and blocks) to be correct, above and beyond the passenger information
  use case.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 On Board Announcements: Announcements made too late because of incorrect
  stop locations or for stops that do not exist render the system useless.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 Real-Time Trip Planning: Planning trips in real time, sometimes hours in
  advance, requires the greatest level of PACT from all of the above-- systems
  must concur for real-time information in the future to be valid.
+\end_layout
+
+\begin_layout Itemize
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Connected Vehicle:
+\begin_inset Quotes erd
+\end_inset
+
+ While this is still being defined, it wil surely require more PACT from
+ existing datasets.
+ 
+\end_layout
+
+\begin_layout Standard
+The progression of technology leads to greater needs from data, and often
+ technology can grow before data is updated.
+ Understanding this is a key to delivering both good data and good projects.
 \end_layout
 
 \end_body
