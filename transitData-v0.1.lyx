@@ -73,7 +73,7 @@ Tony Laidig
 \end_layout
 
 \begin_layout Date
-December, 2013
+2014
 \end_layout
 
 \begin_layout Address
@@ -95,6 +95,21 @@ This guide is the result of a career's worth of experience with transit
 \begin_layout Address
 This work by Tony Laidig is licensed under a Creative Commons Attribution-NonCom
 mercial-ShareAlike 4.0 International License.
+\end_layout
+
+\begin_layout Section*
+Abstract
+\end_layout
+
+\begin_layout Standard
+This document is intended to provide language for a dialog between parties
+ involved in transit data creation and usage through practical qualitative
+ concepts.
+ It identifies four key qualities for 'good' data: precision, accuracy,
+ concurrency, and transparency.
+ The minimum level of these for qualities varies on the system and technologies
+ being used, and is often greater than previous technology projects.
+ 
 \end_layout
 
 \begin_layout Chapter
