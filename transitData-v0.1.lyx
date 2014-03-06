@@ -188,8 +188,8 @@ This document is intended to provide language for a dialog between parties
 status open
 
 \begin_layout Plain Layout
-Intangible risks have a high probability of occurring, but are not identificatie
-d and thus unmitigated.
+Intangible risks have a high probability of occurring, but are not identified
+ and thus unmitigated.
 \end_layout
 
 \end_inset
@@ -222,7 +222,7 @@ A PACT for Good Data
 Many agencies have existing, and new projects are often thought up believing
  that existing data will serve new purposes without major rework.
  Sadly, is often not the case.
- This chapter presents four crucial qualitatitive concepts that are important
+ This chapter presents four crucial qualitative concepts that are important
  in describing the qualities of a system's data.
  These are Precision, Accuracy, Concurrency, and Transparency, or, in manager
  speak, PACT.
@@ -231,7 +231,7 @@ Many agencies have existing, and new projects are often thought up believing
  development, with the aim of reducing errors during the implementation
  stage.
  The quantification of these concepts is not addressed.
- The exmples presented use an ubiquitous dataset in almost every transit
+ The examples presented use an ubiquitous dataset in almost every transit
  data project, a dataset of stops.
 \end_layout
 
@@ -289,14 +289,14 @@ A stop is at Main and 1st Street, Northbound, NE corner, with coordinates
 \end_layout
 
 \begin_layout Standard
-Statisticians and Geospatial scientists use two terms primarily to describe
+Statisticians and Geo-spatial scientists use two terms primarily to describe
  the quality of a dataset--- 
 \emph on
 accuracy
 \emph default
  and 
 \emph on
-precison
+precision
 \emph default
 .
  The 
@@ -374,7 +374,11 @@ Frequency of exports and releases
 \begin_deeper
 \begin_layout Itemize
 e.g.
- 'GTFS is generated at least every 4 months.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+GTFS is generated at least every 4 months.
 \begin_inset Quotes erd
 \end_inset
 
@@ -390,9 +394,10 @@ e.g.
 \begin_layout Standard
 A dataset can be accurate but not precise, precise but not accurate, neither,
  or both.
- Some organizations conduct expensive, highly detailed stop surveys which
- are both precise and accurate at the time of their creation, but these
- lose accuracy over time.
+ Some organizations conduct expensive, highly detailed stop surveys, where
+ individuals are sent to every stop to survey its location and other data.
+ These are both precise and accurate at the time of their creation, but
+ these lose accuracy over time.
  It is not uncommon for the very first survey to be considered only as part
  of a capital project, and the organization in question believes that the
  work is done.
@@ -448,7 +453,7 @@ s or agencies, public and private.
  a new system upon those projects will be.
  The design of concurrent systems often entails finding reliable techniques
  for coordinating their execution, data exchange, and execution scheduling
- to minimize confusion and maximise utility
+ to minimize confusion and maximize utility
 \begin_inset Foot
 status open
 
@@ -486,8 +491,8 @@ Possibility of unsanitized / unvalidated data entry
 
 \begin_deeper
 \begin_layout Itemize
-If an operator can enter data that is invalid or non-sensical, then the
- system that uses it must take this possibility into account.
+If an operator can enter data that is invalid or nonsensical, then the system
+ that uses it must take this possibility into account.
  Policies may need to be put in place to ensure correct entry.
 \end_layout
 
@@ -498,7 +503,7 @@ Long update or synchronization intervals
 
 \begin_deeper
 \begin_layout Itemize
-A dataset that models frequently changing datapoints (e.g.
+A dataset that models frequently changing data points (e.g.
  bus stops) that is only updated every several years is likely to have errors.
  
 \end_layout
@@ -517,9 +522,13 @@ Static includes
 
 \begin_deeper
 \begin_layout Itemize
-Systems may rely on one particular file as an input not coming from the
- same repository as other souces; it may be either as an export from an
- otherwise unconnected system, or a hand-updated file.
+Systems 
+\lang american
+may
+\lang english
+ rely on one particular file as an input not coming from the same repository
+ as other sources; it may be either as an export from an otherwise unconnected
+ system, or a hand-updated file.
  If policies for updating the file in question (e.g.
  on a regular basis or simultaneously with other exports), the data in question
  may fall out of concurrency.
@@ -538,7 +547,7 @@ Datasets should clearly include the times they were updated so that when
 
 \end_deeper
 \begin_layout Section
-Transparancy
+Transparency
 \end_layout
 
 \begin_layout Standard
@@ -559,8 +568,12 @@ Poor and/or obsolete documentation
 
 \begin_deeper
 \begin_layout Itemize
-Systems may be with good documentation, but as time goes on minor changes
- may be made to both the data format and the usage of that data.
+Systems may 
+\lang american
+be
+\lang english
+ with good documentation, but as time goes on minor changes may be made
+ to both the data format and the usage of that data.
  Documentation is not always updated in accordance.
  Well-intentioned users may extend the existing data structure beyond the
  original design by adding additional information that does not strictly
@@ -570,10 +583,21 @@ Systems may be with good documentation, but as time goes on minor changes
 \end_layout
 
 \begin_layout Itemize
-Organizations often take advantage of 'turn-key' systems that include an
- openly-accessible database component often add additional functionality
- 'around the edges.' It is the author's experience that these additions are
- rarely documented.
+Organizations often take advantage of 'turn-key
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+A turn-key system is delivered by a vendor to the end user intact and ready
+ for immediate use.
+ End user development and configuration are minimal.
+\end_layout
+
+\end_inset
+
+' systems that include an openly-accessible database component often add
+ additional functionality, such as tables and reports 'around the edges.'
+ It is the author's experience that these additions are rarely documented.
 \end_layout
 
 \end_deeper
@@ -610,7 +634,7 @@ Excessive room for interpretation and/or lack of usage conventions.
 \begin_layout Itemize
 If a data model allows for the same data can be stored in two places, it
  is often the case that different users see the data differently.
- For example, if a stop dataset model has fields for both STOP_ID (intented
+ For example, if a stop dataset model has fields for both STOP_ID (intended
  to be a normalized key) and STOP_CODE (intended to be a short, but human-readab
 le descriptor) and users fail to understand this difference, users at may
  choose to populate these fields in ways that are not consistent across
@@ -1101,7 +1125,7 @@ Conclusion: Why does this all matter?
 
 \begin_layout Standard
 As new uses for existing data are required, the need for additional precision,
- accuracy, concurrency, and transparancy may increase with them.
+ accuracy, concurrency, and transparency may increase with them.
  While data may exist, it is important to take into consideration the data's
  PACT given it's previous uses.
  Most large transit organizations have had a rough progression in systems
@@ -1164,7 +1188,7 @@ Connected Vehicle:
 \begin_inset Quotes erd
 \end_inset
 
- While this is still being defined, it wil surely require more PACT from
+ While this is still being defined, it will surely require more PACT from
  existing datasets.
  
 \end_layout

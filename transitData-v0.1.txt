@@ -2,7 +2,7 @@ Quantitative Concepts For 'Good' Transit Schedule Data
 
 Tony Laidig
 
-December, 2013
+2014
 
 Disclaimer.
 
@@ -18,15 +18,17 @@ agency, government, or interstellar federation.
 This work by Tony Laidig is licensed under a Creative Commons 
 Attribution-NonCommercial-ShareAlike 4.0 International License.
 
-Introduction
+  Abstract
 
-The usage of certain management principles, technologies, design 
-concepts, and development methodologies can lead to delivering a 
-successful project, the question of the data required to drive 
-that project is often not discussed at more than than a checklist 
-level; if the input data exists, then the project is a go. This 
-results in large, and often unacknowledged risks to the project, 
-and when a problem occurs, the results are often noticable:
+This document is intended to provide language for a dialog 
+between parties involved in transit data creation and usage 
+through practical qualitative concepts. It identifies four key 
+qualities for 'good' data: precision, accuracy, concurrency, and 
+transparency. The minimum level of these for qualities varies on 
+the system and technologies being used, and is often greater than 
+previous technology projects. 
+
+Introduction
 
 “The [tracking] program was put on hold in the fall of 2007, 
 after [transit agency] announced that software problems were 
@@ -48,9 +50,12 @@ with no regard to their corresponding lines. Indicators of
 stations with transfer possibilities are noticeably absent; nor 
 can you [...] search for specific stations.”
 
-The quotes above show the effect of bad or marginal data on what 
-may be otherwise good projects. In short, no amount of Agile 
-Service-Oriented Architecture can save a project from bad data.
+Every person tasked with implementing an IT project dreads 
+encountering quotes like those above. How then, in an era of 
+where many technologies are off-the-shelf and systems engineering 
+is prevalent, do these problems keep happening? The answer is the 
+unconsidered effect of bad or marginal data on what may be 
+otherwise good projects. 
 
 This document is intended to provide language for a dialog 
 between parties involved in transit data creation and usage 
@@ -58,7 +63,7 @@ through practical qualitative concepts, with the intention of
 making currently intangible risks [margin:
 Intangible risks have a high probability of occurring, but are 
 not identificatied and thus unmitigated.
-] obvious.The following groups may find it useful:
+] more obvious.The following groups may find it useful:
 
 • Project Managers, Consultants, and Business Analysts who are 
   tasked with estimating resources for a project using available 
@@ -66,50 +71,11 @@ not identificatied and thus unmitigated.
 
 • Technologists, in consultation with their project team and 
   stakeholders, who are looking for a guidance in measuring 
-  available data quality. potential gaps, and developing 
+  available data quality, potential gaps, and developing 
   solutions to bridge those gaps.
 
 • Analysts, who may need a simple framework to describe issues 
-  with data.
-
-  Why Schedule?
-
-It is quite common for the layman to ask, that a world of 
-real-time information, what purpose does a schedule serve? In 
-short, a schedule models what happens 'on the ground' when 
-transit service is delievered. TCRP Report 135 (perhaps the best 
-freely available guide on the topic of transit scheduling) 
-defines four major groups that benefit from the existence of 
-(realistic) schedules:
-
-1. To customers, a schedule provides the essential information 
-  needed to plan a trip, defines the arrival and departure times 
-  and the time the trip will take, makes sufficient capacity of 
-  service available so that the customers’ trip will be 
-  comfortable, and ensures that customers will arrive at their 
-  destination at the promised time. 
-
-2. To operators, scheduling defines the workday. Operators are 
-  the front line in terms of dealing with customers, and the 
-  interaction can be affected by [realistic] running and layover 
-  times ... Good schedules can reduce the stress inherent in this 
-  job, thus improving morale and minimizing absenteeism. 
-
-3. To transit agencies, scheduling puts reliable service on the 
-  street where it will be most utilized. In addition, scheduling 
-  provides data and information to support other sections such as 
-  Marketing, Planning, Operations, Administration, and many 
-  downstream systems like AVL, APCs, voice annunciators, trip 
-  planners, and real time information systems. 
-
-4. To general managers and chief financial officers, scheduling 
-  has major impacts on the quality and cost of operations... 
-  Scheduling is the brain of the transit organism...
-
-For these four groups, the degree to which the schedule actually 
-models reality plays a large part in its usefulness. The concepts 
-discussed in Chapter 2 are intended to improve the final result 
-of this model's representation of reality.
+  with data to its maintainers and owners.
 
 A PACT for Good Data
 
@@ -417,38 +383,47 @@ into consideration the data's PACT given it's previous uses. Most
 large transit organizations have had a rough progression in 
 systems along the lines of the following.
 
-Scheduling: Early scheduling systems focused primarily on driver 
-schedules over geographic schedules, using a simple schematic 
-network between them. Geography or intermediate stops were not 
-taken into account.
+• Scheduling: Early scheduling systems focused primarily on 
+  driver schedules over geographic schedules, using a simple 
+  schematic network between them. Geography or intermediate stops 
+  were not taken into account.
 
-Detailed Scheduling: Modern scheduling systems include geographic 
-information for paths and stops and has the ability to generate 
-passing times for each stop, which allows for detailed GTFS 
-creation.
+• Detailed Scheduling: Modern scheduling systems include 
+  geographic information for paths and stops and has the ability 
+  to generate passing times for each stop, which allows for 
+  detailed GTFS creation.
 
-Computer Aided Dispatching: In order to dispatch effectively, 
-locations of terminals and timepoints must be accurate. If a 
-timepoint is on the wrong side of the intersection or block, the 
-CAD system will produce incorrect schedule adherence in that 
-vicinity.
+• Computer Aided Dispatching: In order to dispatch effectively, 
+  locations of terminals and timepoints must be accurate. If a 
+  timepoint is on the wrong side of the intersection or block, 
+  the CAD system will produce incorrect schedule adherence in 
+  that vicinity.
 
-Static Trip Planning: Passengers need to know where to board and 
-alight the bus.
+• Static Trip Planning: Passengers need to know where to board 
+  and alight the bus.
 
-Real-Time Passenger Information: The location of every stop must 
-be within reason, and every revenue trip must be accounted for.
+• Real-Time Passenger Information: The location of every stop 
+  must be within reason, and every revenue trip must be accounted 
+  for.
 
-Reporting and Analysis: Reporting on service delivery requires 
-the behind-the-scenes data (e.g. runs and blocks) to be correct, 
-above and beyond the passenger information use case.
+• Reporting and Analysis: Reporting on service delivery requires 
+  the behind-the-scenes data (e.g. runs and blocks) to be 
+  correct, above and beyond the passenger information use case.
 
-On Board Announcements: Announcements made too late because of 
-incorrect stop locations or for stops that do not exist render 
-the system useless.
+• On Board Announcements: Announcements made too late because of 
+  incorrect stop locations or for stops that do not exist render 
+  the system useless.
 
-Real-Time Trip Planning: Planning trips in real time, sometimes 
-hours in advance, requires the greatest level of PACT from all of 
-the above-- systems must concur for real-time information in the 
-future to be valid.
+• Real-Time Trip Planning: Planning trips in real time, sometimes 
+  hours in advance, requires the greatest level of PACT from all 
+  of the above-- systems must concur for real-time information in 
+  the future to be valid.
+
+• The “Connected Vehicle:” While this is still being defined, it 
+  wil surely require more PACT from existing datasets. 
+
+The progression of technology leads to greater needs from data, 
+and often technology can grow before data is updated. 
+Understanding this is a key to delivering both good data and good 
+projects.
 
