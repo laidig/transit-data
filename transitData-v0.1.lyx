@@ -104,12 +104,14 @@ Abstract
 \begin_layout Standard
 This document is intended to provide language for a dialog between parties
  involved in transit data creation and usage through practical qualitative
- concepts.
+ concepts, with the goal of reducing the risks in ITS systems caused by
+ 'bad' input data.
  It identifies four key qualities for 'good' data: precision, accuracy,
  concurrency, and transparency.
  The minimum level of these for qualities varies on the system and technologies
  being used, and is often greater than previous technology projects.
- 
+ It also outlines how to use these qualities when planning a project to
+ identify gaps in available data.
 \end_layout
 
 \begin_layout Chapter
@@ -138,6 +140,18 @@ One problem, developers said, is that some of the information [transit agency]
  At other times, developers said, 'weird' formatting or perhaps a software
  bug makes the name of a bus route — such as the 10A — appear as the time,
  as in 10 a.m
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset Quotes eld
+\end_inset
+
+However, there are many holes in the [agency] data, and by one account,
+ nearly a fifth of the [agency’s] location records are inaccurate.
 \begin_inset Quotes erd
 \end_inset
 

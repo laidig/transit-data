@@ -22,11 +22,14 @@ Attribution-NonCommercial-ShareAlike 4.0 International License.
 
 This document is intended to provide language for a dialog 
 between parties involved in transit data creation and usage 
-through practical qualitative concepts. It identifies four key 
-qualities for 'good' data: precision, accuracy, concurrency, and 
-transparency. The minimum level of these for qualities varies on 
-the system and technologies being used, and is often greater than 
-previous technology projects. 
+through practical qualitative concepts, with the goal of reducing 
+the risks in ITS systems caused by 'bad' input data. It 
+identifies four key qualities for 'good' data: precision, 
+accuracy, concurrency, and transparency. The minimum level of 
+these for qualities varies on the system and technologies being 
+used, and is often greater than previous technology projects. It 
+also outlines how to use these qualities when planning a project 
+to identify gaps in available data.
 
 Introduction
 
@@ -40,6 +43,10 @@ missing data on route destinations. At other times, developers
 said, 'weird' formatting or perhaps a software bug makes the name 
 of a bus route — such as the 10A — appear as the time, as in 10 
 a.m”
+
+“However, there are many holes in the [agency] data, and by one 
+account, nearly a fifth of the [agency’s] location records are 
+inaccurate.”
 
 “Unfortunately, in its current incarnation, the system cannot 
 differentiate when it is displaying schedule data due to 
@@ -62,7 +69,7 @@ between parties involved in transit data creation and usage
 through practical qualitative concepts, with the intention of 
 making currently intangible risks [margin:
 Intangible risks have a high probability of occurring, but are 
-not identificatied and thus unmitigated.
+not identified and thus unmitigated.
 ] more obvious.The following groups may find it useful:
 
 • Project Managers, Consultants, and Business Analysts who are 
@@ -82,14 +89,14 @@ A PACT for Good Data
 Many agencies have existing, and new projects are often thought 
 up believing that existing data will serve new purposes without 
 major rework. Sadly, is often not the case. This chapter presents 
-four crucial qualitatitive concepts that are important in 
+four crucial qualitative concepts that are important in 
 describing the qualities of a system's data. These are Precision, 
 Accuracy, Concurrency, and Transparency, or, in manager speak, 
 PACT. By reviewing the quality of the datasets involved according 
 to these four concepts, project teams can address possible 
 concerns before beginning development, with the aim of reducing 
 errors during the implementation stage. The quantification of 
-these concepts is not addressed. The exmples presented use an 
+these concepts is not addressed. The examples presented use an 
 ubiquitous dataset in almost every transit data project, a 
 dataset of stops.
 
@@ -112,8 +119,8 @@ Precision of an example stop dataset, in ascending precision:
 
 
 
-Statisticians and Geospatial scientists use two terms primarily 
-to describe the quality of a dataset--- accuracy and precison. 
+Statisticians and Geo-spatial scientists use two terms primarily 
+to describe the quality of a dataset--- accuracy and precision. 
 The accuracy of a dataset is the degree of closeness that a 
 record or observation matches the real-world value. Precision 
 refers to the level of refinement available in the dataset to 
@@ -136,19 +143,20 @@ factors, including:
 
 • Frequency of exports and releases
 
-  – e.g. 'GTFS is generated at least every 4 months.”
+  – e.g. “GTFS is generated at least every 4 months.”
 
 A dataset can be accurate but not precise, precise but not 
 accurate, neither, or both. Some organizations conduct expensive, 
-highly detailed stop surveys which are both precise and accurate 
-at the time of their creation, but these lose accuracy over time. 
-It is not uncommon for the very first survey to be considered 
-only as part of a capital project, and the organization in 
-question believes that the work is done. This, however, is often 
-a folly. Due to changes on the ground, accuracy of a stop dataset 
-degrades over time if it is not updated. Streets are paved and 
-closed, businesses open and close, and in some areas entire 
-neighborhoods appear overnight.
+highly detailed stop surveys, where individuals are sent to every 
+stop to survey its location and other data. These are both 
+precise and accurate at the time of their creation, but these 
+lose accuracy over time. It is not uncommon for the very first 
+survey to be considered only as part of a capital project, and 
+the organization in question believes that the work is done. 
+This, however, is often a folly. Due to changes on the ground, 
+accuracy of a stop dataset degrades over time if it is not 
+updated. Streets are paved and closed, businesses open and close, 
+and in some areas entire neighborhoods appear overnight.
 
 
   Concurrency
@@ -177,7 +185,7 @@ that the systems involved are concurrent, the more difficult
 building a new system upon those projects will be. The design of 
 concurrent systems often entails finding reliable techniques for 
 coordinating their execution, data exchange, and execution 
-scheduling to minimize confusion and maximise utility[footnote:
+scheduling to minimize confusion and maximize utility[footnote:
 [2013concurrency]
 ]. Data from systems originally designed to work independently 
 may need some finesse to properly match.
@@ -190,21 +198,21 @@ validated before relying upon them. Some of these are:
 
 • Possibility of unsanitized / unvalidated data entry
 
-  – If an operator can enter data that is invalid or 
-    non-sensical, then the system that uses it must take this 
-    possibility into account. Policies may need to be put in 
-    place to ensure correct entry.
+  – If an operator can enter data that is invalid or nonsensical, 
+    then the system that uses it must take this possibility into 
+    account. Policies may need to be put in place to ensure 
+    correct entry.
 
 • Long update or synchronization intervals
 
-  – A dataset that models frequently changing datapoints (e.g. 
+  – A dataset that models frequently changing data points (e.g. 
     bus stops) that is only updated every several years is likely 
     to have errors. 
 
 • “Static includes”
 
   – Systems may rely on one particular file as an input not 
-    coming from the same repository as other souces; it may be 
+    coming from the same repository as other sources; it may be 
     either as an export from an otherwise unconnected system, or 
     a hand-updated file. If policies for updating the file in 
     question (e.g. on a regular basis or simultaneously with 
@@ -217,7 +225,7 @@ validated before relying upon them. Some of these are:
     so that when two datasets are joined they can be sufficiently 
     linked.
 
-  Transparancy
+  Transparency
 
 Hopefully, when working with data from an existing system, there 
 is documentation on what that data means. Often, however, when 
@@ -239,11 +247,14 @@ the documentation provided.
     to the point that when asked, the data owners suddenly recall 
     the difference.
 
-  – Organizations often take advantage of 'turn-key' systems that 
-    include an openly-accessible database component often add 
-    additional functionality 'around the edges.' It is the 
-    author's experience that these additions are rarely 
-    documented.
+  – Organizations often take advantage of 'turn-key[margin:
+A turn-key system is delivered by a vendor to the end user intact 
+and ready for immediate use. End user development and 
+configuration are minimal.
+]' systems that include an openly-accessible database component 
+    often add additional functionality, such as tables and 
+    reports 'around the edges.' It is the author's experience 
+    that these additions are rarely documented.
 
 • Special cases
 
@@ -261,7 +272,7 @@ the documentation provided.
   – If a data model allows for the same data can be stored in two 
     places, it is often the case that different users see the 
     data differently. For example, if a stop dataset model has 
-    fields for both STOP_ID (intented to be a normalized key) and 
+    fields for both STOP_ID (intended to be a normalized key) and 
     STOP_CODE (intended to be a short, but human-readable 
     descriptor) and users fail to understand this difference, 
     users at may choose to populate these fields in ways that are 
@@ -377,7 +388,7 @@ below.
 Conclusion: Why does this all matter? 
 
 As new uses for existing data are required, the need for 
-additional precision, accuracy, concurrency, and transparancy may 
+additional precision, accuracy, concurrency, and transparency may 
 increase with them. While data may exist, it is important to take 
 into consideration the data's PACT given it's previous uses. Most 
 large transit organizations have had a rough progression in 
@@ -420,7 +431,7 @@ systems along the lines of the following.
   the future to be valid.
 
 • The “Connected Vehicle:” While this is still being defined, it 
-  wil surely require more PACT from existing datasets. 
+  will surely require more PACT from existing datasets. 
 
 The progression of technology leads to greater needs from data, 
 and often technology can grow before data is updated. 
